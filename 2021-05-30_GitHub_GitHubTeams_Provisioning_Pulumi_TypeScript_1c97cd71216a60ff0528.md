@@ -1,0 +1,156 @@
+<!--
+title:   Pulumi を使って GitHub Teamsを管理する
+tags:    GitHub,GitHubTeams,Provisioning,Pulumi,TypeScript
+id:      1c97cd71216a60ff0528
+private: false
+-->
+## これはなに
+
+Pulumi で GitHub の様々な設定をプロビジョニング出来そうだったため軽く検証してみました。
+
+https://www.pulumi.com/docs/intro/cloud-providers/github/
+
+ちなみに、 pulumi/github は、 `terraform-provider-github`を wrap したものになるため、必要な環境変数や設定などは、 Pulumi 側のドキュメントと Terraform側のドキュメント両方を参照する必要があります。
+
+https://github.com/integrations/terraform-provider-github
+
+## pulumi のプロジェクトを作成する
+
+pulumi の プロジェクト作成時に実行するコマンドは、`pulumi new aws-typescript` 等行っているサンプルが多いですが、 今回は、AWS, GAP, Azure 等は利用しません。
+`pulumi new [言語]` ように実行することで、最低限の設定でプロジェクトを作成出来ます。
+
+https://www.pulumi.com/docs/reference/cli/pulumi_new/
+
+今回は、TypeScript を用いるため以下のように実行します。
+
+```bash
+pulumi new typescript
+```
+
+詳細については以下を確認してください
+
+https://qiita.com/mziyut/items/069c21328bbeb25d5aab
+
+## @pulumi/github を追加する
+
+以下ページのREADMEを参考にパッケージを追加します。
+
+https://www.npmjs.com/package/@pulumi/github
+
+```bash
+yarn add @pulumi/github
+```
+
+## teamを定義する
+
+今回は、Project rootに存在する index.tsに以下のように指定しました。
+
+```typescript:index.ts
+import * as pulumi from "@pulumi/pulumi";
+import * as github from "@pulumi/github";
+
+const someTeam = new github.Team("some_team", {
+  description: "Some cool team",
+  privacy: "closed",
+});
+```
+
+## GITHUB_TOKEN を用意する
+
+今回は、 GitHub Teamsの変更を行う予定なので、 `admin:org` にチェックを入れ TOKENを発行します。
+発行した TOKEN は、`pulumi up` を実行するときに必要です無くさないようにしましょう。
+
+![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/55950/fa612120-77b3-efff-b32e-e13e9a953f95.png)
+
+https://github.com/settings/tokens/new
+
+## pulumi up を実行し適用する
+
+Pulumi には Pulumi Service を利用することで簡単に apply や revert 等を試せますが、今回は手元の Console 上から試します。
+
+先ほど用意した `GITHUB_TOKEN` と、変更を適用する `GITHUB_OWNER` (Organization名または、ユーザー名など) を指定し `pulumi up` を実行します。
+
+※ 今回は検証のため、実行時にTOKENを渡しましたが、コマンド実行時にTOKENを渡すと history に残ってしまうので、適切な場所にTOKENを指定することをおすすめします。
+
+```bash
+mziyut% GITHUB_TOKEN=YOUR_TOKEN_HERE GITHUB_OWNER=YOUR_ORG_NAME_HERE pulumi up
+Previewing update (dev)
+
+View Live: https://app.pulumi.com/mziyut/sample/dev/previews/sample-sample-sample-sample-sample
+
+     Type                  Name       Plan
+     pulumi:pulumi:Stack   pulum-dev
+ +   └─ github:index:Team  some_team  create
+
+Resources:
+    + 1 to create
+    1 unchanged
+
+Do you want to perform this update? yes
+Updating (dev)
+
+View Live: https://app.pulumi.com/mziyut/sample/dev/updates/2
+
+     Type                  Name       Status
+     pulumi:pulumi:Stack   pulum-dev
+ +   └─ github:index:Team  some_team  created
+
+Resources:
+    + 1 created
+    1 unchanged
+
+Duration: 7s
+```
+
+実行が終わったら 実際に GitHub上にTeamの作成が完了しているか確認しましょう。
+
+![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/55950/547cd590-6e0c-c8be-36dd-6d0a274b469a.png)
+
+無事作成できました :tada: 
+
+## pulumi destroy を実行し削除する
+
+最後に、検証用に作成した `some_team` を `pulumi destroy` コマンドで削除します。
+`pulumi up` と同様に `GITHUB_TOKEN` と `GITHUB_OWNER` を渡し実行します。
+
+```
+mziyut% GITHUB_TOKEN=YOUR_TOKEN_HERE GITHUB_OWNER=YOUR_ORG_NAME_HERE pulumi destroy
+Previewing destroy (dev)
+
+View Live: https://app.pulumi.com/mziyut/sample/dev/previews/sample-sample-sample-sample-sample
+
+     Type                  Name       Plan
+ -   pulumi:pulumi:Stack   pulum-dev  delete
+ -   └─ github:index:Team  some_team  delete
+
+Resources:
+    - 2 to delete
+
+Do you want to perform this destroy? yes
+Destroying (dev)
+
+View Live: https://app.pulumi.com/mziyut/sample/dev/updates/3
+
+     Type                  Name       Status
+ -   pulumi:pulumi:Stack   pulum-dev  deleted
+ -   └─ github:index:Team  some_team  deleted
+
+Resources:
+    - 2 deleted
+
+Duration: 2s
+
+The resources in the stack have been deleted, but the history and configuration associated with the stack are still maintained.
+If you want to remove the stack completely, run 'pulumi stack rm dev'.
+```
+
+実行が終わったら 実際に GitHub上にTeamの作成が完了しているか確認しましょう。
+
+![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/55950/34801de0-00a7-1592-6c46-4cd61f92a0c4.png)
+
+無事削除できました :tada: 
+
+## 最後に
+
+今回は、 GitHub Teams の変更がどのように実施されるかを確認するために最小限の定義だけに留めましたが、
+メンバーの招待やレポジトリの作成なども出来るようです。

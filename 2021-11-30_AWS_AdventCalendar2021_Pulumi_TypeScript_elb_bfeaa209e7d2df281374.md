@@ -1,0 +1,70 @@
+<!--
+title:   Pulumi (TypeScript) で Elastic Load Balancing account ID を取得する
+tags:    AWS,AdventCalendar2021,Pulumi,TypeScript,elb
+id:      bfeaa209e7d2df281374
+private: false
+-->
+## はじめに
+AWS の Elastic Load Balancing (以外、 LB)  にはアクセスログを S3 に出力する機能があり、出力先となる S3 の bucket policy の設定に Elastic Load Balancing account ID を利用します。
+Elastic Load Balancing account ID はそう変更されることがないため、べた書きしてしまうこともあると思いますが、 Pulumi の AWS Provider から取得する方法があるためその方法を記載します。
+
+ちなみに、 Elastic Load Balancing account ID はリージョンごと異なるため、複数リージョンにリソースを配置する際は注意が必要です。
+
+## Elastic Load Balancing account ID について
+
+各リージョンの Elastic Load Balancing account ID については公式ドキュメントを参照してください
+
+https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-access-logs.html#attach-bucket-policy
+
+ちなみに、 日本国内の東京、大阪リージョンそれぞれの Elastic Load Balancing account ID は以下となります。
+
+| Region | Region name | Elastic Load Balancing account ID | 
+|---|---|---| 
+| ap-northeast-1 | Asia Pacific (Tokyo) | 582318560864 | 
+| ap-northeast-3 | Asia Pacific (Osaka) | 383597477331 | 
+
+## Elastic Load Balancing account ID を取得する
+
+account ID の取得方法は 2つあります。
+
+- `Promise<GetServiceAccountResult>`  を返却する形式 ( `getServiceAccount` )
+- `GetServiceAccountResult` を返却する形式 ( `getServiceAccountOutput` )
+
+`GetServiceAccountResult` は `arn`, `id`, `region` を返却します
+
+```ts:get_service_account_result.ts
+interface GetServiceAccountResult {
+  arn: string
+  id: stting
+  region: string
+}
+```
+
+今回は `GetServiceAccountResult` を返却する形式 ( `getServiceAccountOutput` ) で Elastic Load Balancing account ID を取得します。
+
+以下例だと region を指定していますが AWS provider で default region を指定している場合は region を指定する必要はありません。
+
+
+```ts:elb_account_id.ts
+import * as pulumi from "@pulumi/pulumi"
+import * as aws from "@pulumi/aws"
+
+const serviceAccount = aws.elb.getServiceAccountOutput({ region: 'ap-northeast-1' })
+export const serviceAccountArn = serviceAccount.arn // => 582318560864
+```
+
+^ はTypeScriptですが Python, Go, C# は 以下マニュアルを参照してください
+
+https://www.pulumi.com/registry/packages/aws/api-docs/elb/getserviceaccount/
+
+## 最後に
+
+今回は Elastic Load Balancing account ID を例にしましたが CloudTrail Service Account や Redshift Service Account も同様に account ID を取得することができます。
+
+### CloudTrail
+
+https://www.pulumi.com/registry/packages/aws/api-docs/cloudtrail/getserviceaccount/
+
+### Redshift
+
+https://www.pulumi.com/registry/packages/aws/api-docs/redshift/getserviceaccount/

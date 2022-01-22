@@ -1,0 +1,182 @@
+<!--
+title:   BlankAndroidTV向けアプリをReactNativeで起動するまで
+tags:    Android,AndroidTV,Node.js,React,reactnative
+id:      0ac39e8792a476393b6c
+private: false
+-->
+[Ateam Lifestyle Advent Calendar 2019](https://qiita.com/advent-calendar/2019/ateam-lifestyle)の19日目は
+株式会社エイチームライフスタイル 自動車事業部 の @mziyut が担当します :santa:
+
+最近購入したテレビがAndroidTVをベースにしたものだったのもあり、
+0.55からReactNativeでAndroidTV向けアプリの開発を行えるようになっていたので試してみました。
+ちなみに､2019/12/16時点の最新バージョンは､v0.61.5でした｡
+
+## ReactNativeとは :thinking:
+簡単に言うと「Facebookが作成したReactをベースにネイティブアプリフレームワーク」です。
+
+## AndroidTVとは :thinking:
+簡単に言うと､Googleが提供する､スマートテレビ向けプラットフォームです｡
+
+## 今回用いる環境
+`sh
+$ sw_vers
+ProductName:	Mac OS X
+ProductVersion:	10.14.4
+BuildVersion:	18E226
+
+
+```sh
+$ node -v
+v10.16.3
+```
+
+## ReactNativeを開発する準備 :construction:
+
+[AndroidStudio](https://developer.android.com/studio/index.html) や､[CocoaPods](https://cocoapods.org/)などは､
+プロジェクト作成時に必要となるため事前に準備しておきましょう｡
+
+まず､ReactNativeのProjectを作成します｡
+今回は､｢react_native_androidtv｣といったプロジェクト名にします｡
+時間は､かかるので気長に待ちましょう｡
+
+```sh
+npx react-native init react_native_androidtv
+
+               ######                ######
+             ###     ####        ####     ###
+            ##          ###    ###          ##
+            ##             ####             ##
+            ##             ####             ##
+            ##           ##    ##           ##
+            ##         ###      ###         ##
+             ##  ########################  ##
+          ######    ###            ###    ######
+      ###     ##    ##              ##    ##     ###
+   ###         ## ###      ####      ### ##         ###
+  ##           ####      ########      ####           ##
+ ##             ###     ##########     ###             ##
+  ##           ####      ########      ####           ##
+   ###         ## ###      ####      ### ##         ###
+      ###     ##    ##              ##    ##     ###
+          ######    ###            ###    ######
+             ##  ########################  ##
+            ##         ###      ###         ##
+            ##           ##    ##           ##
+            ##             ####             ##
+            ##             ####             ##
+            ##          ###    ###          ##
+             ###     ####        ####     ###
+               ######                ######
+
+
+                  Welcome to React Native!
+                 Learn once, write anywhere
+
+✔ Downloading template
+✔ Copying template
+✔ Processing template
+✔ Installing CocoaPods dependencies (this may take a few minutes)
+
+  Run instructions for iOS:
+    • cd /Users/mziyut/Workspace/github.com/mziyut/react_native_androidtv && npx react-native run-ios
+    - or -
+    • Open react_native_androidtv/ios/react_native_androidtv.xcworkspace in Xcode or run "xed -b ios"
+    • Hit the Run button
+
+  Run instructions for Android:
+    • Have an Android emulator running (quickest way to get started), or a device connected.
+    • cd /Users/mziyut/Workspace/github.com/mziyut/react_native_androidtv && npx react-native run-android
+````
+### 起動
+
+BlankのProjectが作成されたので､起動できるところまで確認を実施しておきます｡
+今回はAndroidが対象なので､Project作成時に出ていた以下コマンドを実行
+
+```
+$ cd /Users/mziyut/Workspace/github.com/mziyut/react_native_androidtv && npx react-native run-android
+`
+
+起動することを確認できました :tada:
+
+<img width="300" alt="image.png" src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/55950/7f892fdc-83c2-428a-3828-5e763b01e35a.png">
+
+### AndroidTV向けにオプションの変更
+
+AndroidTV向けにBuildできるように設定を変更しましょう｡
+`AndroidManifest.xml`の一部を変更する必要があります｡
+
++ react_native_androidtv/android/app/src/main/AndroidManifest.xml 
+[※1](https://facebook.github.io/react-native/docs/building-for-apple-tv)
+
+```xml
+  <!-- Add custom banner image to display as Android TV launcher icon -->
+ <application
+  ...
+  android:banner="@drawable/tv_banner"
+  >
+    ...
+    <intent-filter>
+      ...
+      <!-- Needed to properly create a launch intent when running on Android TV -->
+      <category android:name="android.intent.category.LEANBACK_LAUNCHER"/>
+    </intent-filter>
+    ...
+  </application>
+```
+
+### 仮想デバイスの追加
+デフォルトだと､通常のAndroidが起動してしまうためAndroidTVDeviceを追加しましょう｡
+![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/55950/fb60f6e3-7d0c-0ada-c7cb-3ea2040a76cd.png)
+
+↑のアイコンをAndroidStudioから探し ｢AVD Manager｣を立ち上げます｡
+標準であればツールバー内に存在します｡
+![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/55950/6eae0a85-fae2-1c03-86d9-0493c2c5ee67.png)
+
+｢Create Virtual Devise｣をクリックします｡
+
+![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/55950/e8970aa0-1146-8771-627e-8b8d28e0a23e.png)
+
+AndroidTVを選択し｢Next｣をクリック｡
+
+システムイメージを選択しましょう｡
+今回は､｢Q｣を選択します｡
+![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/55950/ef8a8de8-8e07-1162-b073-cf39807157d0.png)
+
+｢Next｣を押すと無事仮想デバイスが作成されます｡
+
+![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/55950/91b906dd-8b29-f9d1-6315-f392d38365e0.png)
+
+
+
+### 起動しましょう :clap:
+
+先程立ち上がっていた､仮想デバイスを停止した後､改めてBuildを行います｡
+
+```
+$ cd /Users/mziyut/Workspace/github.com/mziyut/react_native_androidtv && npx react-native run-android
+```
+
+![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/55950/a73cd7ed-ecd8-a7f4-59f2-c41daf96d58c.png)
+
+## まとめ
+
+AndroidTV向けのBuildがReactNativeでサポートされており､少ない設定でアプリをBuildし立ち上げるところまで行えました｡
+しかし､[TV アプリの品質  |  Android Developers](https://developer.android.com/docs/quality-guidelines/tv-app-quality)に以下記載があります｡
+
+> 重要: 優れたユーザー エクスペリエンスを実現するには、TV 端末向けのアプリがユーザビリティの特定の要件に適合している必要があります。
+> 次の品質基準に適合するアプリのみが Google Play で Android TV アプリとして認められます。
+
+リモコン操作に対する設定だけではなくUIに関する制限をクリアするために多くの実装を追加で行う必要があります｡
+(同様に､AppleTV向けアプリケーションも同様に要件があります)
+
+そのため､ReactNativeでスマートテレビ向けアプリを作成できると安易に飛びつくことなく､
+実装に必要な内容を整理した上で判断したほうが良いと考えます｡
+
+Buildしただけですが､[mziyut/react_native_androidtv - Github](https://github.com/mziyut/react_native_androidtv)にPushしておきました｡
+
+## 最後に
+[Ateam Lifestyle Advent Calendar 2019](https://qiita.com/advent-calendar/2019/ateam-lifestyle) 20日目は @mgmg121 がお送りします！！
+どんな記事を書いてくれるかとても楽しみですね！
+
+## 参考
++ ※1) https://facebook.github.io/react-native/docs/building-for-apple-tv

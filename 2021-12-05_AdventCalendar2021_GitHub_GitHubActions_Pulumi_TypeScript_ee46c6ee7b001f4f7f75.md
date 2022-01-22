@@ -1,0 +1,134 @@
+<!--
+title:   GitHub Actions を使って  `pulumi preview` を実行し、Pull request に表示する方法 (TypeScript 編)
+tags:    AdventCalendar2021,GitHub,GitHubActions,Pulumi,TypeScript
+id:      ee46c6ee7b001f4f7f75
+private: false
+-->
+## はじめに
+
+Pulumi には 反映済みの リソースとの差分を表示する `pulimi preview` コマンドがあります。
+
+Pull request を作成した際に、 `pulimi preview` 結果を Pull request に表示する方法の 1つ に GitHub Actions を利用する方法があるため今回その方法を記載します。
+
+## GitHub Actions の定義ファイルを作成する
+
+`.github/workflows/pulumi_preview.yml` を作成します。
+YML のファイル名には制限はないため利用している Project に応じて適切な名前を利用してください。
+
+先に作成済みの YML ファイルを記載し、細かな説明を行います。
+
+```yml:.github/workflows/pulumi_preview.yml
+name: pulumi preview
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  pulumi_preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - uses: pulumi/actions@v3
+        with:
+          command: preview
+          stack-name: production
+          cloud-url: s3://your-state-bucket
+          comment-on-pr: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+```
+
+### Project の checkout と必要な言語
+
+今回のサンプルは TypeScript を例に記載します。
+TypeScript 以外を利用している場合 `actions/setup-node@v2` を利用している言語 (および バージョン) に切り替えてください。
+
+#### サンプル
+
+```yml
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+```
+
+### AWS Credential を設定する
+
+今回 state の保存先に AWS S3 を利用するため AWS Credential の定義を行います。
+以下は、 AccessKey と SecretAccessKey を用いていますが、 必要に応じて OIDC を用いるなど読み替えてください
+
+```yml
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+```
+
+### Pulumi preview の設定を行う
+
+記載した オプション (with) 部分を簡単に説明します。
+
+- `command`
+    - `pulumi <up|down|preview>` などを指定します
+- `stack-name`
+    - 表示の通り stack 名を指定します
+    - 今回は `production` という stack を利用するとします
+- `cloud-url`
+    - state の保存先を指定します。
+    - このサンプルは  AWS S3 (bucket 名は `your-state-bucket`) を利用します
+        - AWS S3 以外 にも Google Cloud Storage なども利用できます、詳細については以下URLを確認してみてください
+        - [State and Backends | Pulumi](https://www.pulumi.com/docs/intro/concepts/state/)
+- `comment-on-pr`
+    - `preview` の結果などを Pull request にコメントとして記録するかを選択できます。
+    - GitHub Actions の実行条件が `push` の時は `false` を指定 (または、定義しない)  
+        - コメント追加処理を行うため Pull request を探しますが見つからないためエラーとなります。
+- `github-token`
+    - `comment-on-pr` を `true` にする際は必須
+    - コメントを追加する処理を行うために必要です。
+        - また、 GitHub Actions の permissions に `pull-requests: write` の定義するのを忘れないようにしましょう
+
+
+```yml
+      - uses: pulumi/actions@v3
+        with:
+          command: preview
+          stack-name: production
+          cloud-url: s3://your-state-bucket
+          comment-on-pr: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+```
+
+## 終わりに
+
+公式ドキュメントも整備されており、(若干かゆいところに手が届かない部分もありますが) 上記定義だけで簡単に Pull request にコメントを追加するだけならば簡単に実現できました。
+
+今回は GitHub Actions を利用する例を記載しましたが、GitHub と Pulumi service を利用している場合は "Pulumi GitHub App" を使うことで、作成した Pull request に `pulumi preview` 結果を簡単に出力することができます。
+
+"Pulumi GitHub App" を利用できる場合は "Pulumi GitHub App" の利用をお勧めします。
+Pulumi GitHub App については以下 URL を参照してください
+
+https://www.pulumi.com/docs/guides/continuous-delivery/github-app/
+
+
+## Reference
+
+https://www.pulumi.com/docs/guides/continuous-delivery/github-actions/
