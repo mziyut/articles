@@ -18,7 +18,7 @@ https://qiita.com/mziyut/items/069c21328bbeb25d5aab
 
 ## 実行環境
 
-```zsh
+```console
 % sw_vers
 ProductName:	macOS
 ProductVersion:	12.0.1
@@ -34,7 +34,7 @@ v16.10.0
 `yarn add @pulumi/aws-native` を実行し `aws-native` package を追加します
 
 ```zsh
-% yarn add @pulumi/aws-native
+yarn add @pulumi/aws-native
 ```
 
 ## region を設定する
@@ -43,7 +43,7 @@ AWS Native Package も AWS Classic と同様に region の設定を行う必要�
 今回は、東京リージョン `ap-northeast-1` を設定します
 
 
-```
+```zsh
 pulumi config set aws-native:region ap-northeast-1
 ```
 

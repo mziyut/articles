@@ -1,0 +1,330 @@
+<!--
+title:   QiitaのMarkdownパーサー変更にともなう「リンク」「オートリンク」「Qiita リンクカード」の記載方法について
+tags:    GitHubFlavoredMarkdown,Markdown,Qiita,QiitaMarkdown,redcarpet
+id:      bc00ed7396bd60a717b8
+private: false
+-->
+## 記事投稿シリーズについて
+
+QiitaでGitHub Flavored Markdown (以下GFM) に準拠したMarkdownパーサーが[ベータ版として公開されました！](https://blog.qiita.com/replace-markdown-parser-beta/)
+
+[Qiitaアカウントによる説明記事](https://qiita.com/Qiita/items/e87ebe3138f62b0e8b58)にも書いてあるのですが、今までと記法が変わっている箇所があるので注意が必要です。
+せっかく書いた記事の表示が崩れてしまうのは困るので、可能な限り防ぎたいと考えています！
+
+そこで、記事を書く時に注意すべき記法などについて、Qiita運営から5日間に分けて10記事のシリーズで投稿することになりました！
+少しでも皆様が執筆する際の助けになればと思います。
+
+詳しくはQiitaアカウントによる説明記事に、投稿シリーズの説明や、他の記事一覧が載っていますのでぜひ他の記事も読んでみてください！
+
+https://qiita.com/Qiita/items/e87ebe3138f62b0e8b58
+
+## リンク
+
+:::note
+リンクについては、[Greenmat](https://github.com/increments/greenmat) から GFM に変更後も記載方法に大きな差分はありません
+:::
+
+
+### リンクの構成
+
+リンクは、リンクテキストとリンク先で構成されており、リンクタイトルも設定することができます
+
+#### リンクテキストとリンク先を指定する場合
+
+```markdown:markdown
+[リンクテキスト](リンク先)
+
+<!-- 結果 (GFM) -->
+<p><a href="リンク先">リンクテキスト</a></p>
+```
+
+#### リンクテキストとリンク先に加えリンクタイトルを指定する場合
+
+```markdown:markdown
+[リンクテキスト](リンク先 "リンクタイトル")
+
+<!-- 結果 (GFM) -->
+<p><a href="リンク先" title="リンクタイトル">リンクテキスト</a></p>
+```
+
+まずはそれぞれの要素の注意点などを確認していきましょう
+
+
+#### リンクテキスト
+
+- リンクは入れ子にすることはできません
+    - 入れ子にした場合は、 **最も内側の定義が有効となります**
+- リンクテキストとして認識させるためには `[` と `]` で文字を囲む必要があります
+    - `[` と `]` のいずれかが `\` でエスケープされているとリンクテキストとして認識しません
+- `[` `]` の内部に コードスパン や HTML タグが存在する場合リンクテキストとして認識しません
+    - 例) [foo`]` はリンクになりません
+- リンクテキストの括弧は、マーカーよりも優先されます。
+    - 例) *[foo*](#) はリンクになります
+
+
+#### リンク先
+
+- 改行を含めることはできません
+- 一部の文字はエスケープする必要があります
+- リンク先に特定の文字列などを含む場合は `<` と `>` で囲む必要があります
+    - スペースや `)` 等の記号など
+
+
+:::note warn
+`\` を改行行に追加することでリンク改行することができます
+また、Greenmat と GFM で若干パース結果が異なります
+:::
+
+```markdown:markdown
+[リンク
+\
+\
+テキスト](#)
+
+<!-- 結果 (GFM) -->
+<a href="/url">リンク<br>
+<br>
+<br>
+テキスト</a>
+
+<!-- 結果 (Greenmat) -->
+<a href="/url">リンク<br>
+\ <br>
+\ <br>
+テキスト</a>
+```
+
+#### リンクタイトル
+
+- リンクタイトルとしたい文字を指定された文字列で囲む必要があります
+    - ダブルクォーテーション `"`
+    - シングルクォーテーション `'`
+    - 括弧 `()`
+
+### リンクの種類
+
+Markdown には 2 つの基本的なリンクの種類があり、今回は以下2種類について紹介します
+
+- インラインリンク
+    - リンクテキストの直後にリンク先とタイトルを指定
+- 参照リンク
+    - リンクテキストとリンク先を別々の場所で定義できます
+
+### インラインリンク
+
+インラインリンクは、リンクテキストの直後にリンク先とタイトルを指定する方法です
+Markdown を書いたことがある方なら 1 回は書いたことがある記述方式ではないでしょうか?
+
+
+```markdown:markdown
+[リンクテキスト](リンク先)
+
+<!-- 結果 (GFM) -->
+<p><a href="リンク先">リンクテキスト</a></p>
+
+---
+[リンクテキスト](リンク先 "リンクタイトル")
+
+<!-- 結果 (GFM) -->
+<p><a href="リンク先" title="リンクタイトル">リンクテキスト</a></p>
+```
+
+### 参照リンク
+
+参照リンクは、リンクテキストとリンク先を別々の場所で定義する方法です
+注釈の記述方法とよく似ていますね
+
+```markdown:markdown
+[リンクテキスト]
+
+[リンクテキスト]: リンク先
+
+<!-- 結果 (GFM) -->
+<p><a href="リンク先">リンクテキスト</a></p>
+
+---
+[リンクテキスト]
+
+[リンクテキスト]: リンク先 "リンクタイトル"
+
+<!-- 結果 (GFM) -->
+<p><a href="リンク先" title="リンクタイトル">リンクテキスト</a></p>
+```
+
+参照リンク形式の書き方は Markdown で書かれた文章を読む際にとても便利な機能です
+
+> [Qiita株式会社]は[Qiita]、[Qiita Team]、[Qiita Jobs]を運営しています
+>
+> [Qiita株式会社]: https://corp.qiita.com
+> [Qiita]: https://qiita.com
+> [Qiita Team]: https://teams.qiita.com
+> [Qiita Jobs]: https://jobs.qiita.com
+
+
+上記のような文を **インラインリンク** を用いて表現する際は下記のように記述しますが
+
+```markdown:markdown
+[Qiita株式会社](https://corp.qiita.com)は[Qiita](https://qiita.com)、[Qiita Team](https://teams.qiita.com)、[Qiita Jobs](https://jobs.qiita.com)を運営しています
+```
+
+**参照リンク** を用いて表現する際は下記のように記述することができます
+Markdown を直接読むことが予想される場合は積極的に利用していきたいですね
+
+```markdown:markdown
+[Qiita株式会社]は[Qiita]、[Qiita Team]、[Qiita Jobs]を運営しています
+
+[Qiita株式会社]: https://corp.qiita.com
+[Qiita]: https://qiita.com
+[Qiita Team]: https://teams.qiita.com
+[Qiita Jobs]: https://jobs.qiita.com
+```
+
+また、同じリンク先を指定したい場合も複数箇所に同じURLを記載する必要もなくなります。
+
+
+> [Increments株式会社][Qiita株式会社]は[Qiita株式会社]に社名変更ならびに本社移転をいたしました
+>
+> [Qiita株式会社]: https://corp.qiita.com
+
+
+```markdown:markdown
+[Increments株式会社][Qiita株式会社]は[Qiita株式会社]に社名変更ならびに本社移転をいたしました
+
+[Qiita株式会社]: https://corp.qiita.com
+```
+
+
+## オートリンク
+
+オートリンクは `<` と `>` の間に、URI や メールアドレスを含めるとリンクとして表現してくれる機能です
+`<` と `>` の間にスペースなど含めた場合はリンクとして表示出来ないため注意が必要です
+
+### URI
+
+```markdown:markdown
+<https://corp.qiita.com>
+
+<!-- 結果 (GFM) -->
+<a href="https://corp.qiita.com">https://corp.qiita.com</a>
+```
+
+### メールアドレス
+
+```markdown:markdown
+<foo@example.com>
+
+<!-- 結果 (GFM) -->
+<a href="mailto:foo@example.com">foo@example.com</a>
+```
+
+またオートリンクがメールアドレスと認識するのは以下正規表現にマッチするメールアドレスのみです
+
+```text
+/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?
+(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+```
+
+### オートリンク (拡張)
+
+先ほど、オートリンクは `<` と `>` で囲む必要があると記載しましたが、一部条件にマッチする文字列は自動でリンクに変換されます
+
+#### URI
+
+##### `www.` から始まる文字が連続する場合
+
+`www.`から始まる文字列がURLとして認識されます
+スペースや特定の文字(`?`, `!`, `.`, `,` など)が現れるまで URL として表示されます
+
+```markdown:markdown
+www.qiita.com
+
+<!-- 結果 (GFM) -->
+<a href="http://www.qiita.com">www.qiita.com</a>
+
+---
+
+www.qiita.com.
+
+<!-- 結果 (GFM) -->
+<a href="http://www.qiita.com">www.qiita.com</a>.
+```
+
+##### `http://` `https://` から始まる文字が連続する場合
+
+`www.` から始まる文字が連続する場合と同様に
+スペースや特定の文字(`?`, `!`, `.`, `,` など)が現れるまで URL として表示されます
+
+```markdown:markdown
+http://qiita.com
+
+<!-- 結果 (GFM) -->
+<a href="http://qiita.com">http://qiita.com</a>
+
+---
+
+http://qiita.com.
+
+<!-- 結果 (GFM) -->
+<a href="http://qiita.com">http://qiita.com</a>.
+```
+
+#### メールアドレス
+
+英数字と `@` 等が含まれる場合はメールアドレスとして表示されます
+
+
+```markdown:markdown
+bar@example.com
+
+<!-- 結果 (GFM) -->
+<a href="mailto:bar@example.com">bar@example.com</a>
+```
+
+## Qiita リンクカード
+
+Qiita リンクカードは Qiita 独自の記法です。
+URI の前後に改行を含めると URI 先の タイトルと OGP 画像を取得し表示を行います
+
+
+https://qiita.com
+
+```markdown:markdown
+
+https://qiita.com
+
+
+<!-- 結果 (GFM) -->
+<qiita-embed-ogp src="https://qiita.com"></qiita-embed-ogp>
+```
+
+
+また、オートリンク表記をした場合は オートリンク表記 が優先されます
+
+
+## 最後に
+
+他の記法についてもまた別の記事でまとめていますので、合わせて読んでみてください
+詳しくは[Qiitaアカウントによる説明記事](https://qiita.com/Qiita/items/e87ebe3138f62b0e8b58)をご覧ください :information_desk_person:
+
+
+## Reference
+
+- [GitHub Flavored Markdown Spec - 6.6 Links](https://github.github.com/gfm/#links)
+- [GitHub Flavored Markdown Spec - 4.7 Link reference definitions](https://github.github.com/gfm/#link-reference-definitions)
+- [GitHub Flavored Markdown Spec - 6.9 Autolinks (extension)](https://github.github.com/gfm/#autolinks-extension-)
+- [GitHub - redcarpet/Markdown Documentation - Syntax.text at master · vmg/redcarpet](https://github.com/vmg/redcarpet/blob/master/test/MarkdownTest_1.0/Tests/Markdown%20Documentation%20-%20Syntax.text)
+
+
+---
+
+- 記事投稿シリーズまとめ :qiitan:
+
+https://qiita.com/Qiita/items/e87ebe3138f62b0e8b58
+
+- 前の記事
+
+https://qiita.com/phigasui/items/010f4c79ff47bbaaebdd
+
+- 次の記事 :
+
+https://qiita.com/xrxoxcxox/items/0c91e5319c32434f2c6a

@@ -28,8 +28,8 @@ https://github.com/actions-runner-controller/actions-runner-controller
 
 ## 実行環境
 
-```bash
-minikube version
+```console
+% minikube version
 minikube version: v1.23.2
 commit: 0a0ad764652082477c00d51d2475284b5d39ceed
 ```
@@ -39,7 +39,7 @@ commit: 0a0ad764652082477c00d51d2475284b5d39ceed
 minikubeで利用できる の メモリ, CPUをなるべく増やしておきましょう。
 (標準ままでも動きますが若干の力不足感があった)
 
-メモリ, CPU数の変更は以下記事を参考にしていただけると :pray: 
+メモリ, CPU数の変更は以下記事を参考にしていただけると :pray:
 
 https://qiita.com/loftkun/items/7400d5ae0e7b1fb7d26e
 
@@ -64,7 +64,7 @@ https://cert-manager.io/docs/installation/
 
 上記URLから、実行中の k8s バージョンにあった cert-manager を apply してください
 
-```bash
+```console
 $ kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
 customresourcedefinition.apiextensions.k8s.io/certificaterequests.cert-manager.io created
 customresourcedefinition.apiextensions.k8s.io/certificates.cert-manager.io created
@@ -128,7 +128,7 @@ kubectl apply -f https://github.com/actions-runner-controller/actions-runner-con
 
 今回は `v0.20.0` を利用します。
 
-```bash
+```console
 $ kubectl apply -f https://github.com/actions-runner-controller/actions-runner-controller/releases/download/v0.20.0/actions-runner-controller.yaml
 namespace/actions-runner-system created
 customresourcedefinition.apiextensions.k8s.io/horizontalrunnerautoscalers.actions.summerwind.dev created
@@ -218,10 +218,10 @@ actions-runner-controller はただ実行するだけでなく、 job の実行�
 ## 最後に
 
 Qiita株式会社では一緒に働く仲間を探しています。
-この記事には、一部しか記載できていないため もっと詳しく知りたいと思った方は ▼ からカジュアル面談など申請いただけますと :pray: 
+この記事には、一部しか記載できていないため もっと詳しく知りたいと思った方は ▼ からカジュアル面談など申請いただけますと :pray:
 
 https://meety.net/articles/t2--h6croouig1ma
 
 https://corp.qiita.com/jobs/
 
-Qiita Advent Calendar 2021 の 11 日目は、 @fussy113 が担当します :xmas-tree: 
+Qiita Advent Calendar 2021 の 11 日目は、 @fussy113 が担当します :xmas-tree:

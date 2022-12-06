@@ -1,0 +1,80 @@
+<!--
+title:   GitHub Actions の workflow name を動的に適用する
+tags:    GitHub,GitHubActions,YAML
+id:      e46b37182ad031667e2b
+private: false
+-->
+## はじめに
+
+2022/09 から GitHub Actions の worklflow name が動的に定義可能になりました。
+これまでは、コミットメッセージなどの決められたテキストが表示されていましたが、workflow の実行時に個別定義することが出来るようになりました。
+
+## workflow name を動的に適用する
+
+workflow name を動的に適用するためには、 YAML 内に `run-name` を定義します
+
+```yaml:.github/workflows/test.yml
+name: Test
+run-name: Test run-name here!
+```
+
+run-name 内では `${{ github }}` や `${{ inputs }}` の context のみが利用出来ます
+
+https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#run-name
+
+### 利用例
+
+例として以下のような、 main branch に push されたら shell を実行する workflow が定義されていたとします
+
+```yml:.github/workflows/deploy.yml
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v3
+      - run: sh deploy.sh
+```
+
+多くの場合 default branch (main/master branch) に 直接 push せず merge されることが多く、標準設定のままのコミットメッセージだと "Merge pull request #XX from foo/bar" が一覧に表示されるだけになってしまいます。
+今回の例では、 deploy されたと言うことを表示させてあげれば良いと考えられるため以下のように定義するとよいでしょう。
+
+```yml:.github/workflows/deploy.yml
+name: Deploy
+run-name: Deploy to XXXX
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v3
+      - run: sh deploy.sh
+```
+
+記載した例には、workflow name が動的に定義出来るようになったメリットを享受出来ていませんが、^ にも記載しているとおり、 `${{ github }}` や `${{ inputs }}` の context が利用出来るため自身により最適なメッセー定義を考えてみると面白そうです
+
+## 最後に
+
+`run-name` を適切に設定してあげることで迷うこと無く CI/CD の実行やその結果を確認すると言ったことが出来るようになります
+小さなことかも知れませんが、開き間違いなどのストレスなく開発出来る環境にしていきたいですね。
+
+## Reference
+
+GitHub Actions: Dynamic names for workflow runs
+
+https://github.blog/changelog/2022-09-26-github-actions-dynamic-names-for-workflow-runs/
+
+https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#name

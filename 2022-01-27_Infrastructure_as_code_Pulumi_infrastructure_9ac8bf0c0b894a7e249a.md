@@ -1,0 +1,34 @@
+<!--
+title:   Pulumi で resource の rename を行う方法
+tags:    Infrastructure_as_code,Pulumi,infrastructure
+id:      9ac8bf0c0b894a7e249a
+private: false
+-->
+## はじめに
+
+- Pulumi は `terraform state mv` に相当する、定義済みの resource の rename を行うことが出来ません
+- `pulumi state mv` を出来るようにすべきとの議論も行われているため、近々出来るようになる可能性もあります
+
+## resource の rename を行う
+
+1. `pulumi state delete <resource URN>` を実行し state から resource を管理外に変更
+1. `pulumi import [type] [name] [id]` を実行し resource を取り込む
+
+- 必要に応じて、`pulumi import` 後に `pulumi unprotect` を実行してください
+    - `terraform state mv` を忠実に再現したい場合
+    - `terraform import` 後に謝って resource を削除しそうになった方は protect のままにしておくことをおすすめします
+
+### `pulumi state` コマンドについて
+
+`pulumi state` で実行できる処理は `delete` と `unprotect` のみです。
+
+`unprotect`は `pulumi import` で取り込んだ resource を誤って削除しないための機能です
+`terraform import` した resource を誤って削除しそうになった方は有効にしておくことよいでしょう
+
+## Reference
+
+https://www.pulumi.com/docs/reference/cli/pulumi_state/
+
+https://www.pulumi.com/docs/reference/cli/pulumi_import/
+
+https://github.com/pulumi/pulumi/issues/458

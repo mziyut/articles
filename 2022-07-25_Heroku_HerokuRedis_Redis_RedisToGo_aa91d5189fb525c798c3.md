@@ -1,0 +1,89 @@
+<!--
+title:   Redis To Go がサービス終了するので Heroku Redis に移行する
+tags:    Heroku,HerokuRedis,Redis,RedisToGo
+id:      aa91d5189fb525c798c3
+private: false
+-->
+## はじめに
+
+- Heroku で Redis を使う際によく使われていた "Redis To Go" が 2022/08/08 にサービス終了されるとアナウンスが届きました
+- Redis To Go から Heroku Redis に移行する方法を調査し、移行したのでその記録をまとめました
+
+## 移行先を選ぶ
+
+今回は時間的都合から、 Heroku から別のプラットフォームに変更することは検討していません
+Heroku で Redis Addon は複数ありますが、今回は "Heroku Redis" を選択しました
+選択した理由は、 "Heroku 公式の Addon である", "データの移行が容易" の2つです
+
+https://elements.heroku.com/addons/heroku-redis
+
+また、 "Heroku Redis" 以外の Addon は以下から検索できます
+
+https://elements.heroku.com/search/addons?q=Redis
+
+## データを移行する
+
+### 事前準備
+
+#### Heroku CLI の Install
+
+データの移行には、 Heroku CLI を必要とします
+Heroku CLI が Install されていない場合は以下ドキュメントを参考に Install をしてください
+
+https://devcenter.heroku.com/articles/heroku-cli
+
+#### Redis To Go の接続先を取得
+
+Heroku CLI から "Redis To Go" Redis の接続先情報を取得します
+
+接続先情報は環境変数 `REDISTOGO_URL` に保存されています
+`heroku config` を実行すると対象の App に設定されている、環境変数を取得できます
+
+```sh
+heroku config -a YOUR_APP_NAME | grep REDIS
+```
+
+上記コマンドを実行すると、 `redis://<user_name>:<password>@<hostname>:<port>` 形式の Redis の接続先情報が表示されています
+後の設定に必要なので手元に保存しておきましょう
+
+### Redis データの移行を行う
+
+今回の移行先である "Heroku Redis" を作成すると共に、データの移行を実施します。
+移行にはデータ量に関わらず 30分 ~ 45分 かかりました
+また、"Heroku Redis" の作成を行うと、 Redis の接続先情報が `HEROKU_REDIS` 等に設定されます移行中の Redis に誤って接続されないよう App 側の設定は事前に変更しておきましょう
+
+"Heroku Redis" 作成と同時に Redis のデータを移行する場合は、 `heroku addons:create` を実行する際に `--fork` オプションを付け実行する必要があります
+
+```sh
+heroku addons:create heroku-redis:hobby-dev --fork redis://h:<password>@<hostname>:<port> -a YOUR_APP_NAME
+```
+
+"Heroku Redis" の作成状態については `heroku redis:info` コマンドで確認することができます
+
+```sh
+heroku redis:info -a YOUR_APP_NAME
+```
+
+移行開始直後は Status が `Preparing (fork in progress)` になっていますが、 移行が完了すると `Available` に変更されます
+
+### App の接続先を切り替える
+
+"Redis To Go" から "Heroku Redis" にデータの移行が完了したら接続先を切り替えます
+私の場合は環境変数を変更しました
+
+## Reference
+
+https://devcenter.heroku.com/articles/heroku-redis#using-the-cli
+
+> END OF LIFE NOTICE
+>
+> ON AUGUST 8TH, 2022, WE WILL BE SHUTTING DOWN OUR PLATFORM. THIS DECISION WAS MADE AFTER CAREFUL ANALYSIS OF OUR BUSINESS AND OUR ABILITY TO MAINTAIN THE STANDARD OF SUPPORT FOR CUSTOMERS ON THIS PLATFORM.
+>
+> WE RECOGNIZE THAT THIS WILL POTENTIALLY CAUSE SOME CHALLENGES AND WE WANTED TO COMMUNICATE THIS CHANGE AS EARLY AS POSSIBLE. TO AVOID ANY SERVICE INTERRUPTIONS, WE RECOMMEND BEGINNING A MIGRATION PLAN AS SOON AS POSSIBLE.
+>
+> THANK YOU,
+> REDISTOGO SUPPORT
+
+https://redistogo.com/
+
+https://redistogo.com/documentation

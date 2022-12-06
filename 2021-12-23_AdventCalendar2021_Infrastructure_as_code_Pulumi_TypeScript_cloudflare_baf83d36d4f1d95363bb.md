@@ -37,7 +37,7 @@ https://api.cloudflare.com/#dns-records-for-a-zone-list-dns-records
 ^ の import コマンドを実行すると pulumi up など実行したときと同様に
 state の変更状況を出力した後、index.ts などに追記すべきサンプルコードを出力してくれます。
 
-```zsh
+```console
 Please copy the following code into your Pulumi application. Not doing so
 will cause Pulumi to report that an update will happen on the next update command.
 

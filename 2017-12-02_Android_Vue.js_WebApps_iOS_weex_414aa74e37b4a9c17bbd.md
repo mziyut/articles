@@ -1,5 +1,5 @@
 <!--
-title:   Weexでモバイルアプリを作ってみた
+title:   Weexでモバイルアプリプロジェクトを作成し起動するまで
 tags:    Android,Vue.js,WebApps,iOS,weex
 id:      414aa74e37b4a9c17bbd
 private: false
@@ -48,7 +48,7 @@ Creating a new weex project.
 上記コマンドを実行すると、`weex-sample` ディレクトリが作成されその中に、weexプロジェクトが展開されます。
 
 ```bash
-$ cd weex-sample && ll                                                                                                                                                                                    
+$ cd weex-sample && ll
 total 760
 -rw-r--r--  1 mizui.yuta  staff       1 - README.md
 -rw-r--r--  1 mizui.yuta  staff     113 - android.config.json
@@ -94,7 +94,7 @@ installが終わったら、プロジェクト設定は完了です。
 `npm run serve`コマンドを実行すると、ディレクトリ内のソースのビルド、ウォッチ、ブラウザの起動を行ってくれます
 
 ```bash
-$ npm run serve                                                                                                                                                                         
+$ npm run serve
 > weex@1.0.0 serve /Users/h-1442/Workspace/github.com/mziyut/weex-sample
 > webpack-dev-server --config webpack.dev.js --watch --open
 
@@ -175,7 +175,7 @@ export PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_HO
 weex platform add android
 ```
 
-追加が終わったら､以下コマンドを実行すると･･･ 
+追加が終わったら､以下コマンドを実行すると･･･
 
 ```bash
 weex run android
@@ -257,7 +257,7 @@ http://dotwe.org/vue/c4be3e63bb03080bc6cd7c86461f1bf8
 ## まとめ
 [Weex](https://weex.apache.org/)はプロジェクトのinitから､各アプリのビルドまでサクッと行うことが出来ました(iOS以外)
 ただし､日本語の情報が少なすぎるのに加えて､英語以外に中国語のが飛び交うグループを見なければならず翻訳を使わなければ難しい部分もありました｡
-今後も､HTML+CSS+JavaScriptを用いてネイティブアプリを作るツールは様々出てくるかと思いますが継続してウォッチしていければと思います :eye: 
+今後も､HTML+CSS+JavaScriptを用いてネイティブアプリを作るツールは様々出てくるかと思いますが継続してウォッチしていければと思います :eye:
 
 また､今回使用したコードは、mziyut/weex-sampleにコミットしておきました確認したい方はご確認頂ければと思います｡
 
@@ -266,4 +266,4 @@ https://github.com/mziyut/weex-sample
 ## 最後に
 
 
-[エイチームライフスタイルアドベントカレンダー2017](https://qiita.com/advent-calendar/2017/ateam-lifestyle)、明日は開発リーダー @charden さんが Firebaseを用いたA/Bテストについて書いてくれるらしいので、お楽しみに:exclamation: 
+[エイチームライフスタイルアドベントカレンダー2017](https://qiita.com/advent-calendar/2017/ateam-lifestyle)、明日は開発リーダー @charden さんが Firebaseを用いたA/Bテストについて書いてくれるらしいので、お楽しみに:exclamation:

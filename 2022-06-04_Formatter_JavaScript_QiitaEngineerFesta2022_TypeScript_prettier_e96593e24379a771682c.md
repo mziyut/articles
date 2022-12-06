@@ -1,0 +1,95 @@
+<!--
+title:   Prettier と plugin だけで Node.js のモジュール import の並び順を整える
+tags:    Formatter,JavaScript,QiitaEngineerFesta2022,TypeScript,prettier
+id:      e96593e24379a771682c
+private: false
+-->
+## はじめに
+
+- Prettier を導入しているが、ESLint が導入されていない JavaScript/TypeScript の小さなプロジェクトで `import` の並び順を揃えたいニーズがあったため、追加したライブラリと設定を記載します
+- ESLint を導入することで解消も可能でしたが、 ESLint を入れる程大きなプロジェクトではないため見送りました
+
+## 実行環境
+
+```zsh
+% sw_vers
+ProductName:    macOS
+ProductVersion: 12.4
+BuildVersion:   21F79
+% node -v
+v16.7.0
+% yarn -v
+1.22.15
+```
+
+## import の並び順を整える
+
+今回追加するのは trivago が開発している `prettier-plugin-sort-imports` です
+
+https://github.com/trivago/prettier-plugin-sort-imports
+
+### ライブラリの追加
+
+該当のプロジェクトでは `yarn` を利用していたため以下コマンドで追加を行いました
+npm を利用している場合読み替えていただけると
+
+```zsh
+yarn add --dev @trivago/prettier-plugin-sort-imports
+```
+
+### 設定の追加
+
+ライブラリを追加するだけでデフォルトの設定が有効になります
+設定を変更する場合は Prettier の設定ファイルにルールを記載していきます
+
+プロジェクトによって設定ファイル名や形式が異なる場合もあります
+必要に応じて公式ドキュメントを参照してください
+
+https://prettier.io/docs/en/configuration.html
+
+ちなみに私が設定したルールは以下 2 つです
+※ 今回追加した設定のみ記載しています
+
+```json:.prettierrc.json
+{
+  "importOrder": ["^@foo/(.*)$", "^[./]"],
+  "importOrderSeparation": true
+}
+```
+
+他にもルールは存在しますが追加した 2 ルールだけ説明を追加します
+
+| ルール名 | ルール説明 |
+|:-:|:-:|
+| `importOrder` | 左から順に import 順を並び替えます |
+| `importOrderSeparation` | `importOrder` を 1 つのグループとし その前後に改行を追加します |
+
+### Prettier を実行する
+
+以下のようなコマンドを実行し、整形を行います
+
+```zsh
+yarn prettier --write .
+```
+
+コマンドの実行結果
+Before, After 例を載せておきます
+
+```ts:before.ts
+import hoge from "./"
+import foo from "@foo/baz"
+import foo from "@foo/bar"
+```
+
+```ts:after.ts
+import foo from "@foo/bar"
+import foo from "@foo/baz"
+
+import hoge from "./"
+```
+
+## Reference
+
+https://github.com/trivago/prettier-plugin-sort-imports
+
+https://prettier.io/docs/en/configuration.html

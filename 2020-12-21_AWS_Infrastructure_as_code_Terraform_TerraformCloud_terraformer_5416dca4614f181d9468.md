@@ -1,5 +1,5 @@
 <!--
-title:   terraformerを利用し既存インフラをコード化する
+title:   Terraformer を利用し既存インフラをコード化する
 tags:    AWS,Infrastructure_as_code,Terraform,TerraformCloud,terraformer
 id:      5416dca4614f181d9468
 private: false
@@ -13,7 +13,7 @@ Infrastructure as Code(IaC)と当たり前に言われる中もちろんコー�
 ただ、一方で過渡期であったり、緊急で構成の変更を求められることは0ではありません。
 軽微な変更であれば、容易に取り込むことが出来ますが、新規のリソースを追加した際には取り込むことは至難の業となります。
 
-今回は、 terraformer[^1] を利用し既存インフラのコード化を行ってみようと思います。
+今回は、 Terraformer[^1] を利用し既存インフラのコード化を行ってみようと思います。
 
 
 [^1]: [GoogleCloudPlatform/terraformer: CLI tool to generate terraform files from existing infrastructure (reverse Terraform). Infrastructure to Code](https://github.com/GoogleCloudPlatform/terraformer)
@@ -27,7 +27,7 @@ Terraform backend等は正しく設定されていることを前提に進めま
     + Terraform Cloud
 + Terraform version
     + v0.14.3
-+ terraformer version
++ Terraformer version
     + v0.8.10
 
 ### セキュリティグループ を取り込んでみる
@@ -38,15 +38,15 @@ Terraform backend等は正しく設定されていることを前提に進めま
 
 ![スクリーンショット 2020-12-22 1.23.50.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/55950/b11978c3-abcc-f198-63b7-4dced54e0952.png)
 
-### `terraformer` の実行準備
+### Terraformer の実行準備
 `terraformer import` を実行出来るように準備を進めていきます。
-個人的に `terraformer` を実行するディレクトリは Terraform Working Directory 以外での実行をおすすめします。
+個人的に Terraformer を実行するディレクトリは Terraform Working Directory 以外での実行をおすすめします。
 理由は以下となります。
 
 + EC2等importした場合セキュリティグループなどべた書きになってしまう。
 + module等綺麗に分割していても考慮せずにコード化されてしまう。
 
-そのため私は、**あくまで現在のstateを取り込む** ことを目的に `terraformer` を利用しています。
+そのため私は、**あくまで現在のstateを取り込む** ことを目的に Terraformer を利用しています。
 それでは、適当に `tmp` ディレクトリを作成しそのディレクトリ内で `terraformer import` を実行出来るように準備を進めていきます
 
 ```zsh
@@ -150,7 +150,7 @@ output "aws_security_group_tfer--mziyut-002D-advent-002D-calendar-002D-2020_sg-x
 }
 ```
 
-`tf:generated/aws/sg/provider.tf
+```tf:generated/aws/sg/provider.tf
 provider "aws" {
   region = "<ここにリージョン名>"
 }
@@ -162,7 +162,7 @@ terraform {
     }
   }
 }
-
+```
 
 ```tf:generated/aws/sg/security_group.tf
 resource "aws_security_group" "tfer--mziyut-002D-advent-002D-calendar-002D-2020_sg-xxxx-xxxxxxxxxxxxxxxxx" {
@@ -182,12 +182,11 @@ resource "aws_security_group" "tfer--mziyut-002D-advent-002D-calendar-002D-2020_
 ```
 
 ## まとめ
-今回 `terraformer` を利用し既存インフラをコード化しました。
-自らインフラの状態からTerraformを記述するよりも何倍も効率よく進めることができました。
+今回 Terraformer を利用し既存インフラをコード化しました。
+自らインフラの状態から Terraform を記述するよりも何倍も効率よく進めることができました。
 
 気になる方は、一度触ってみてはいかがでしょうか。
 
 ## 最後に
-
 
 [Ateam Group Manager ＆ Specialist Advent Calendar 2020](https://qiita.com/advent-calendar/2020/ateam) の23日目は、Increments株式会社の @phigasui さんがお送りします。

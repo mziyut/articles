@@ -1,0 +1,100 @@
+<!--
+title:   Pulumi で AWS ELBv2 (ALB) と ACM発行の証明書を用いた Listener を作成する際に "UnsupportedCertificate" のエラーが発生したときに疑うこと
+tags:    AWS,CertificateManager,ElasticLoadBalancing,Pulumi,TypeScript
+id:      b48933b9114a0250bfab
+private: false
+-->
+## はじめに
+
+- Pulumi で AWS Elastic Load Balancing v2 (type は ALB) (以下ALB) を AWS Certificate Manager で発行する証明書を用い Listener の作成を試みたところ "UnsupportedCertificate" のエラーが発生しました
+- 最初 "UnsupportedCertificate" だけでは何が原因かわからなかったため調査した結果を記載します
+
+## 先に結論を...
+
+- 私の場合 AWS Certificate Manager (ACM) の証明書発行(認証)が終わっていないため "UnsupportedCertificate" が発生していました
+
+## 実行環境
+
+```zsh
+% pulumi version
+v3.33.1
+% ag -A1 "@pulumi/aws@" yarn.lock | grep -o "version .*"
+version "4.38.1"
+```
+
+## 作成しようとした resource について
+
+:::note warn
+説明に関連しない VPC や SecurityGroup などのリソース、パラメータなどは省略しています
+:::
+
+Pulumi JavaScript(TypeScript) と Pulumi Amazon Web Services (AWS) provider を用いてリソースの作成を行っていました
+下記は構築を試みたリソースの一部を再現したコードです
+
+```ts:index.ts
+import * as pulumi from "@pulumi/pulumi"
+import * as aws from "@pulumi/aws"
+
+const testCertificate = new aws.acm.Certificate("test-certificate", {
+  domainName: "sample.example.com",
+  validationMethod: "DNS"
+})
+
+const testLoadBalancer = new aws.lb.LoadBalancer("test-load_balancer", {
+  internal: false,
+  loadBalancerType: "application",
+  // NOTE: subnets, securityGroups, accessLogs 等の定義は省略
+})
+const testLBTargetGroup = new aws.lb.TargetGroup("test-lb-target_group", {
+    port: 80,
+    protocol: "HTTP",
+    vpcId: testVpc.id, // VPC作成の定義は省略
+})
+const testLBListener = new aws.lb.Listener("test-lb-listener", {
+    loadBalancerArn: testLoadBalancer.arn,
+    port: 443,
+    protocol: "HTTPS",
+    sslPolicy: "ELBSecurityPolicy-2016-08",
+    certificateArn: testCertificate.arn,
+    defaultActions: [{
+        type: "forward",
+        targetGroupArn: frontEndTargetGroup.arn,
+    }],
+})
+```
+
+問題となった処理は、 AWS Certificate Manager (ACM) で証明書を発行する処理です
+今回私は、 「NS レコードの登録が完了していないドメイン」に対して証明書の発行を行うも NS レコードの登録が完了していないため、 認証に必要な A レコードももちろん参照することはできません
+
+```ts
+const testCertificate = new aws.acm.Certificate("test-certificate", {
+  domainName: "sample.example.com",
+  validationMethod: "DNS"
+})
+```
+
+## エラーメッセージ
+
+下記は `pulumi up` 時に出力されていたメッセージ (一部置換済み) です
+"UnsupportedCertificate"  は字のごとく有効な証明書出ないことを表しており、証明書関連の処理を洗ったところ今回の原因にたどり着きました
+
+```console
+* error creating ELBv2 Listener (arn:aws:elasticloadbalancing:***:***:loadbalancer/app/xxx-lb/xxxxxxxx): UnsupportedCertificate: The certificate 'arn:aws:acm:***:***:certificate/xxxx-xxxx-xxxx-xxxx-xxxx' must have a fully-qualified domain name, a supported signature, and a supported key size.
+      	status code: 400, request id: xxxx-xxxx-xxxx-xxxx-xxxx
+```
+
+念のため、 AWS Console から AWS Elastic Load Balancing v2 (type は ALB) (以下ALB) の作成試みたところ、
+当たり前ですが、有効化が完了していない証明書を 選択することはできませんでした。
+
+
+
+## Reference
+
+Terraform を用いて構築する際に、 似た条件で "UnsupportedCertificate" が発生し対応された方の記事を一応貼っておきます
+※ Pulumi Amazon Web Services (AWS) provider は中身が terraform のため
+
+https://dev.classmethod.jp/articles/dnsrecord-acm-alb-with-terraform/
+
+https://github.com/pulumi/pulumi
+
+https://github.com/pulumi/pulumi-aws
