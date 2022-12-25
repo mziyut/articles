@@ -1,0 +1,272 @@
+<!--
+title:   inframap を利用し構成図作成する
+tags:    AdventCalendar2022,Graphviz,Terraform,graph-easy,inframap
+id:      903cdb3a41388794adb7
+private: false
+-->
+## はじめに
+
+Terraform state や 定義から構成図を出力する inframap というツールはご存じでしょうか
+今回 inframap を動かす所までを実施してみました
+
+https://github.com/cycloidio/inframap
+
+inframap は terraform graph で出力される構成をより分かりやすくしたいというモチベーションのもと開発されています
+
+## inframap を install する
+
+macOS を利用し、 Homebrew が設定済みの場合は以下コマンドを実行するだけで完了します。
+また、後のステップで `dot` や `graph-easy` を利用する場合は `graphviz` 等も install しておきましょう
+併せて、必要に応じて path を通すことも忘れず実施してください
+
+```
+brew install inframap
+brew install graphviz # dot を利用する場合
+cpan Graph::Easy # graph-easy を利用する場合
+```
+
+## inframap を実行する
+
+今回 inframap を実行するために S3 + CloudFront で static site を管理していたと仮定し進めます。
+S3 + CloudFront の構成なので以下のような記述になるはずです
+
+```hcl:main.tf
+provider "aws" {
+  region = "ap-northeast-1"
+}
+
+resource "aws_s3_bucket" "test" {}
+
+resource "aws_s3_bucket_acl" "example_bucket_acl" {
+  bucket = aws_s3_bucket.test.id
+  acl    = "private"
+}
+
+resource "aws_s3_bucket_website_configuration" "test" {
+  bucket = aws_s3_bucket.test.bucket
+
+  index_document {
+    suffix = "index.html"
+  }
+
+  error_document {
+    key = "error.html"
+  }
+}
+
+resource "aws_s3_bucket_policy" "test" {
+  bucket = aws_s3_bucket.test.id
+  policy = data.aws_iam_policy_document.test.json
+}
+
+data "aws_iam_policy_document" "test" {
+  statement {
+    sid       = "Allow from CloudFront"
+    effect    = "Allow"
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.test.arn}/*"]
+
+    principals {
+      type        = "AWS"
+      identifiers = [aws_cloudfront_origin_access_identity.test.iam_arn]
+    }
+  }
+}
+
+resource "aws_cloudfront_distribution" "test" {
+  enabled             = true
+  default_root_object = "index.html"
+
+  origin {
+    domain_name = aws_s3_bucket.test.bucket_regional_domain_name
+    origin_id   = aws_s3_bucket.test.id
+
+    s3_origin_config {
+      origin_access_identity = aws_cloudfront_origin_access_identity.test.cloudfront_access_identity_path
+    }
+  }
+
+  default_cache_behavior {
+    allowed_methods        = ["GET", "HEAD"]
+    cached_methods         = ["GET", "HEAD"]
+    target_origin_id       = aws_s3_bucket.test.id
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 3600
+    max_ttl                = 86400
+
+    forwarded_values {
+      query_string = false
+
+      cookies {
+        forward = "none"
+      }
+    }
+
+  }
+
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
+      locations        = []
+    }
+  }
+
+  viewer_certificate {
+    cloudfront_default_certificate = true
+  }
+}
+
+resource "aws_cloudfront_origin_access_identity" "test" {}
+```
+
+それでは、用意した `main.tf` に対して inframap を実行してみます
+
+```sh
+$ inframap generate main.tf
+strict digraph G {
+	"aws_cloudfront_distribution.test"->"aws_s3_bucket.test";
+	"aws_cloudfront_distribution.test" [ height=1.15, image="/Users/mziyut/Library/Caches/inframap/assets/aws/Networking_and_Content_Delivery/Amazon-CloudFront.png", imagepos=tc, labelloc=b, shape=plaintext ];
+	"aws_s3_bucket.test" [ height=1.15, image="/Users/mziyut/Library/Caches/inframap/assets/aws/Storage/Amazon-Simple-Storage-Service-S3.png", imagepos=tc, labelloc=b, shape=plaintext ];
+
+}
+$ inframap generate main.tf | dot -Tpng > inframap_generate.png
+# generate inframap_generate.png
+$ inframap generate main.tf | dot -Tsvg > inframap_generate.svg
+# generate inframap_generate.svg
+$ inframap generate main.tf | /usr/local/Cellar/perl/5.36.0/bin/graph-easy
+
+ aws_cloudfront_distribution.test
+
+  |
+  |
+  v
+
+        aws_s3_bucket.test
+
+```
+
+![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/55950/f967ebfd-2548-c536-825d-39f683a549b4.png)
+
+今回は S3 と CloudFront のみの簡単な構成だっため図もシンプルになっています
+もう少し複雑な構成であれば、 inframap の恩恵をさらに受けることが出来ます
+
+## その他
+
+参考までに terraform graph の実行結果も記載します。
+terraform graph も inframap 同様に画像やテキストでの出力を行うことが出来ます
+
+```sh
+$ terraform graph
+digraph {
+        compound = "true"
+        newrank = "true"
+        subgraph "root" {
+                "[root] aws_cloudfront_distribution.test (expand)" [label = "aws_cloudfront_distribution.test", shape = "box"]
+                "[root] aws_cloudfront_origin_access_identity.test (expand)" [label = "aws_cloudfront_origin_access_identity.test", shape = "box"]
+                "[root] aws_s3_bucket.test (expand)" [label = "aws_s3_bucket.test", shape = "box"]
+                "[root] aws_s3_bucket_acl.example_bucket_acl (expand)" [label = "aws_s3_bucket_acl.example_bucket_acl", shape = "box"]
+                "[root] aws_s3_bucket_policy.test (expand)" [label = "aws_s3_bucket_policy.test", shape = "box"]
+                "[root] aws_s3_bucket_website_configuration.test (expand)" [label = "aws_s3_bucket_website_configuration.test", shape = "box"]
+                "[root] data.aws_iam_policy_document.test (expand)" [label = "data.aws_iam_policy_document.test", shape = "box"]
+                "[root] provider[\"registry.terraform.io/hashicorp/aws\"]" [label = "provider[\"registry.terraform.io/hashicorp/aws\"]", shape = "diamond"]
+                "[root] aws_cloudfront_distribution.test (expand)" -> "[root] aws_cloudfront_origin_access_identity.test (expand)"
+                "[root] aws_cloudfront_distribution.test (expand)" -> "[root] aws_s3_bucket.test (expand)"
+                "[root] aws_cloudfront_origin_access_identity.test (expand)" -> "[root] provider[\"registry.terraform.io/hashicorp/aws\"]"
+                "[root] aws_s3_bucket.test (expand)" -> "[root] provider[\"registry.terraform.io/hashicorp/aws\"]"
+                "[root] aws_s3_bucket_acl.example_bucket_acl (expand)" -> "[root] aws_s3_bucket.test (expand)"
+                "[root] aws_s3_bucket_policy.test (expand)" -> "[root] data.aws_iam_policy_document.test (expand)"
+                "[root] aws_s3_bucket_website_configuration.test (expand)" -> "[root] aws_s3_bucket.test (expand)"
+                "[root] data.aws_iam_policy_document.test (expand)" -> "[root] aws_cloudfront_origin_access_identity.test (expand)"
+                "[root] data.aws_iam_policy_document.test (expand)" -> "[root] aws_s3_bucket.test (expand)"
+                "[root] provider[\"registry.terraform.io/hashicorp/aws\"] (close)" -> "[root] aws_cloudfront_distribution.test (expand)"
+                "[root] provider[\"registry.terraform.io/hashicorp/aws\"] (close)" -> "[root] aws_s3_bucket_acl.example_bucket_acl (expand)"
+                "[root] provider[\"registry.terraform.io/hashicorp/aws\"] (close)" -> "[root] aws_s3_bucket_policy.test (expand)"
+                "[root] provider[\"registry.terraform.io/hashicorp/aws\"] (close)" -> "[root] aws_s3_bucket_website_configuration.test (expand)"
+                "[root] root" -> "[root] provider[\"registry.terraform.io/hashicorp/aws\"] (close)"
+        }
+}
+
+$ terraform graph | dot -Tpng > terraform_graph.png
+# generate terraform_graph.png
+$ terraform graph | dot -Tsvg > terraform_graph.svg
+# generate terraform_graph.svg
+$ terraform graph | /usr/local/Cellar/perl/5.36.0/bin/graph-easy
+                                                          + - - - - - - - - - - - - - - - - - - - - - - - - - - +
+                                                          '                        root                         '
+                                                          '                                                     '
+                                                          ' +-------------------------------------------------+ '
+                                                          ' |                   [root] root                   | '
+                                                          ' +-------------------------------------------------+ '
+                                                          '   |                                                 '
+                                                          '   |                                                 '
+                                                          '   |                                                 '
+       +- - - - - - - - - - - - - - - - - - - - - - - - -     |                                                   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -+
+       '                                                      v                                                                                                                                      '
+       ' +------------------------------------------+       +---------------------------------------------------------------------------------------+       +--------------------------------------+ '
+       ' | aws_s3_bucket_website_configuration.test | <---- |            [root] provider["registry.terraform.io/hashicorp/aws"] (close)             | ----> | aws_s3_bucket_acl.example_bucket_acl | '
+       ' +------------------------------------------+       +---------------------------------------------------------------------------------------+       +--------------------------------------+ '
+       '   |                                                  |                                                    |                                          |                                      '
+       '   |                                                  |                                                    |                                          |                                      '
+       '   |                                                  v                                                    v                                          |                                      '
+       '   |                                                +-------------------------------------------------+  +----------------------------------+         |                                      '
+       '   |                                                |            aws_s3_bucket_policy.test            |  | aws_cloudfront_distribution.test | ---+    |                                      '
+       '   |                                                +-------------------------------------------------+  +----------------------------------+    |    |                                      '
+       '   |                                                  |                                                    |                                     |    |                                      '
+       '   |                                                  |                                                    |                                     |    |                                      '
+       '   |                                                  v                                                    |                                     |    |                                      '
+       '   |                                                +-------------------------------------------------+    |                                     |    |                                      '
+       '   |                                           +--- |        data.aws_iam_policy_document.test        |    |                                     |    |                                      '
+       '   |                                           |    +-------------------------------------------------+    |                                     |    |                                      '
+       '   |                                           |      |                                                    |                                     |    |                                      '
+       '   |                                           |      |                                                    |                                     |    |                                      '
+       '   |                                           |      v                                                    |                                     |    |                                      '
+       '   |                                           |    +-------------------------------------------------+    |                                     |    |                                      '
+       '   |                                           |    |   aws_cloudfront_origin_access_identity.test    | <--+                                     |    |                                      '
+       '   |                                           |    +-------------------------------------------------+                                          |    |                                      '
+       '   |                                           |      |                                                                                          |    |                                      '
+       '   |                                           |      |                                                   - - - - - - - - - - - - - - - - - -    |    |                                      '
+       '   |                                           |      |                                                 '                                    '   |    |                                      '
+       '   |                                           |      |                                                 '                                    '   |    |                                      '
+       '   |                                           |      v                                                 '                                    '   |    |                                      '
+       '   |                                           |    +-------------------------------------------------+ '                                    '   |    |                                      '
+       '   |                                           |    | provider["registry.terraform.io/hashicorp/aws"] | '                                    '   |    |                                      '
+       '   |                                           |    +-------------------------------------------------+ '                                    '   |    |                                      '
++ - - -    |                                           |      ^                                                 '                                    '   |    |                                      '
+'          |                                           |      |                                                 '                                    '   |    |                                      '
+'          |                                           |      |                                                 '                                    '   |    |                                      '
+'   +------+-------------------------------------------+      |                                                 '                                    '   |    |                                      '
+'   |      |                                                  |                                                 '                                    '   |    |                                      '
+'   |      |                                                  |                                                   - - - - - - - - - - - - - - - - - -    |    |                                      '
+'   |      |                                                  |                                                                                          |    |                                      '
+'   |      |                                                +---------------------------------------------------------------------------------------+    |    |                                      '
+'   |      +----------------------------------------------> |                                  aws_s3_bucket.test                                   | <--+    |                                      '
+'   |                                                       +---------------------------------------------------------------------------------------+         |                                      '
+'   |                                                         ^                                                    ^                                          |                                      '
+'   +---------------------------------------------------------+                                                    +------------------------------------------+                                      '
+'                                                                                                                                                                                                    '
+'                                                                                                                                                                                                    '
++ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -+
+
+```
+
+![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/55950/eed06d19-df46-9bce-ad72-0918116645e6.png)
+
+## 最後に
+
+今回は HCL ファイル `main.tf` から構成を出力しましたが、 state ファイルなどからも出力することが出来ます
+詳しくは、 README を参照してみてください
+
+## References
+
+https://github.com/mziyut/playground/blob/main/tools/terraform/test-inframap/README.md
+
+- [cycloidio/inframap: Read your tfstate or HCL to generate a graph specific for each provider, showing only the resources that are most important/relevant.](https://github.com/cycloidio/inframap)
+- [Command: graph | Terraform | HashiCorp Developer](https://developer.hashicorp.com/terraform/cli/commands/graph)
+- [Download | Graphviz](https://graphviz.org/download/)
+- [ironcamel/Graph-Easy: Convert or render graphs (as ASCII, HTML, SVG or via Graphviz)](https://github.com/ironcamel/Graph-Easy)
+- [aws_s3_bucket_acl | Resources | hashicorp/aws | Terraform Registry](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_acl)
+- [aws_s3_bucket_website_configuration | Resources | hashicorp/aws | Terraform Registry](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_website_configuration)
+- [aws_s3_bucket_policy | Resources | hashicorp/aws | Terraform Registry](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy)
+- [aws_cloudfront_distribution | Resources | hashicorp/aws | Terraform Registry](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution)
+- [aws_cloudfront_origin_access_identity | Resources | hashicorp/aws | Terraform Registry](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_origin_access_identity)

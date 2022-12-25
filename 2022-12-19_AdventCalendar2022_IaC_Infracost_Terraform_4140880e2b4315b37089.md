@@ -1,0 +1,112 @@
+<!--
+title:   infracost を使って インフラコストの見える化をする
+tags:    AdventCalendar2022,IaC,Infracost,Terraform,コスト削減
+id:      4140880e2b4315b37089
+private: false
+-->
+## はじめに
+
+アドベントカレンダーの記事作成のため、 Terraform 関連のネタを探していたら infracost というツールを見つけたので、実行してみました
+
+## infracost とは
+
+infracost は Terraform 上の定義から予想されるコストを表示させるツールです
+
+https://www.infracost.io
+
+OSS のため、ソースコードは GitHub 上に公開されています。 Infracost Cloud を利用するには一定コストがかかりますが、 CLI 上で実行するだけならコストをかけず実行することが出来ます
+ただし、実行には現在のクラウドサービスの価格取得のために Infracost アカウントを作成し API Key 発行。設定する必要があります。
+
+## 実行してみる
+
+それでは infracost を実行してみましょう
+
+### Infracost を install する
+
+macOS を利用しているため Homebrew を利用して install します
+
+```sh
+brew install infracost
+```
+
+macOS 以外を利用している方は以下 Docs を参照し設定してください
+
+https://www.infracost.io/docs/#1-install-infracost
+
+### API key を取得する
+
+実行には instance cost を取得のため infracost の 登録/ログインが必要になります
+以下コマンドを実行すると、ブラウザが立ち上がります。登録/ログインを実施してください
+
+```sh
+infracost auth login
+```
+
+認証が完了すると CLI に API Key を保存した表示が出ます
+また、ブラウザは以下のような表示に切り替わります
+
+```
+The API key was saved to /Users/mziyut/.config/infracost/credentials.yml
+```
+
+![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/55950/bda76078-048e-9b90-824c-2b8ef9717bd2.png)
+
+
+### infracost を実行してみる
+
+今回は以下のようなファイルを用意して実行してみました
+
+```hcl:main.tf
+provider "aws" {
+  region = "ap-northeast-1"
+}
+
+resource "aws_instance" "example" {
+  instance_type = "t4g.micro"
+  ami           = "ami-0b69ea66ff7391e80"
+}
+```
+
+https://github.com/mziyut/playground/pull/1
+
+terraform の実行環境は各々用意してください
+準備が出来たら `infracost breakdown --path .` を実行してみます
+
+```sh
+> infracost breakdown --path .
+Evaluating Terraform directory at .
+  ✔ Downloading Terraform modules
+  ✔ Evaluating Terraform directory
+  ✔ Retrieving cloud prices to calculate costs
+
+Project: mziyut/playground/test-infracost
+
+ Name                                                  Monthly Qty  Unit   Monthly Cost
+
+ aws_instance.example
+ ├─ Instance usage (Linux/UNIX, on-demand, t4g.micro)          730  hours         $7.88
+ └─ root_block_device
+    └─ Storage (general purpose SSD, gp2)                        8  GB            $0.96
+
+ OVERALL TOTAL                                                                    $8.84
+──────────────────────────────────
+1 cloud resource was detected:
+∙ 1 was estimated, it includes usage-based costs, see https://infracost.io/usage-file
+```
+
+今回指定した、 `t4g.micro` を 1ヶ月動かすと `$8.84` かかることがわかりました
+
+## 最後に
+
+今回は、 CLI での利用例を記載しましたが、 GitHub Apps や VS Code の Extension もあるそうです
+各々必要な環境で設定し利用してみてください
+
+https://www.infracost.io/docs/integrations/github_app/
+
+https://www.infracost.io/docs/integrations/vscode/
+
+## Reference
+
+https://github.com/infracost/infracost
+
+https://www.infracost.io
