@@ -1,0 +1,26 @@
+{
+  "name": "@mziyut/qiita-articles",
+  "version": "0.1.0",
+  "description": "mziyut's qiita-articles",
+  "main": "index.js",
+  "scripts": {
+    "qiita:new": "qiita new",
+    "qiita:preview": "qiita preview",
+    "qiita:publish": "qiita publish",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Yuta Mizui <me@mziyut.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mziyut/qiita-articles.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mziyut/qiita-articles/issues"
+  },
+  "homepage": "https://github.com/mziyut/qiita-articles#readme",
+  "dependencies": {
+    "@increments/qiita-cli": "^0.0.19"
+  }
+}
