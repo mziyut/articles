@@ -4,6 +4,8 @@
   "description": "mziyut's qiita-articles",
   "main": "index.js",
   "scripts": {
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
     "qiita:new": "qiita new",
     "qiita:preview": "qiita preview",
     "qiita:publish": "qiita publish",
@@ -22,5 +24,11 @@
   "homepage": "https://github.com/mziyut/qiita-articles#readme",
   "dependencies": {
     "@increments/qiita-cli": "^0.0.19"
+  },
+  "devDependencies": {
+    "prettier": "^2.8.8"
+  },
+  "prettier": {
+    "singleQuote": true
   }
 }

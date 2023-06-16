@@ -6,10 +6,11 @@ tags:
   - GitLab-CI-Runner
   - gitlab-runner
 private: false
-updated_at: '2022-05-20T20:08:30+09:00'
+updated_at: '2023-06-16T14:34:11+09:00'
 id: db55dbaa3ce03ec3b62a
 organization_url_name: qiita-inc
 ---
+
 ## はじめに
 
 - 普段は GitHub を利用していますが、 GitLab + GitLab Runner を触る機会があり、 GitLab Runner の Job 実行中に Slack 通知を送信しようと設定したことがあり、その手順、方法についてまとめました
@@ -17,10 +18,10 @@ organization_url_name: qiita-inc
 ## 環境
 
 - GitLab
-    - SaaS/Cloud (gitlab.com)
-    - レポジトリは作成済み
+  - SaaS/Cloud (gitlab.com)
+  - レポジトリは作成済み
 - GitLab Runners
-    - Shared runners を利用
+  - Shared runners を利用
 
 ## GitLab Runner から Slack 通知送信の設定
 
@@ -32,7 +33,7 @@ Slack に通知を送信するために以下を行います
 ### GitLab Runner の設定
 
 まず、GitLab Runner の Variables を設定します
-レポジトリTop > Settings > CI/CD に進み、Variables を設定します。
+レポジトリ Top > Settings > CI/CD に進み、Variables を設定します。
 
 `https://gitlab.com/<YOUR_USER_OR_ORG_NAME>/<REPOSITORY_NAME>/-/settings/ci_cd`
 
@@ -41,13 +42,12 @@ Slack に通知を送信するために以下を行います
 
 - Key: `SLACK_WEBHOOK_URL`
 - Value: `https://hooks.slack.com/services/xxxxxxxx/xxxxxxxx/xxxxxxxx`
-    - 一部文字を置き換えています
+  - 一部文字を置き換えています
 - Type: Variable
 - Environment scope: All
 - Flags
-    - Protect variable: (off) 
-    - Mask variable: (on) 
-
+  - Protect variable: (off)
+  - Mask variable: (on)
 
 ![Screen Shot 0004-05-05 at 13.52.02.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/55950/b2dec0c7-695e-8c75-a01a-0ec164798849.png)
 
