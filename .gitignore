@@ -1,3 +1,4 @@
 .remote
 node_modules
 .npmrc
+yarn-error.log
