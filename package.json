@@ -4,6 +4,8 @@
   "description": "mziyut's qiita-articles",
   "main": "index.js",
   "scripts": {
+    "format:": "run-s prettier textlint",
+    "format:fix": "run-s prettier:fix textlint:fix",
     "qiita:new": "qiita new",
     "qiita:preview": "qiita preview",
     "qiita:publish": "qiita publish",
@@ -29,6 +31,7 @@
   },
   "devDependencies": {
     "@textlint-ja/textlint-rule-no-synonyms": "^1.3.0",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.8.8",
     "sudachi-synonyms-dictionary": "^12.0.0",
     "textlint": "^13.3.2",
