@@ -2,6 +2,13 @@
   "plugins": {},
   "filters": {},
   "rules": {
+    "@textlint-ja/no-synonyms": {
+      "allows": [],
+      "prleferWords": [],
+      "alrllowAlphabet": true,
+      "alrllowNumber": true,
+      "alrllowLexeme": true
+    },
     "no-todo": true
   }
 }
