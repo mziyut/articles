@@ -15,7 +15,8 @@ ignorePublish: false
 
 ## はじめに
 
-- 普段は GitHub を利用していますが、 GitLab + GitLab Runner を触る機会があり、 GitLab Runner の Job 実行中に Slack 通知を送信しようと設定したことがあり、その手順、方法についてまとめました
+普段は GitHub を利用していますが、 GitLab + GitLab Runner を触る機会がありました。
+GitLab Runner の Job 実行中に Slack 通知を送信しようと設定したことがあり、その手順、方法についてまとめました。
 
 ## 環境
 
@@ -27,7 +28,7 @@ ignorePublish: false
 
 ## GitLab Runner から Slack 通知送信の設定
 
-Slack に通知を送信するために以下を行います
+Slack に通知を送信するために以下を行います。
 
 - GitLab Runner の Variables 設定
 - `.gitlab-ci.yml` を追加
@@ -57,8 +58,8 @@ Slack に通知を送信するために以下を行います
 
 ### `.gitlab-ci.yml` を追加
 
-今回は、 `Test` とだけ送信する Job を定義しました
-`variables.MESSAGE` 部分を変更いただければ、通知する チャンネルや icon 等も変更いただけます
+今回は、 `Test` とだけ送信する Job を定義しました。
+`variables.MESSAGE` 部分を変更いただければ、通知する チャンネルや icon 等も変更いただけます。
 
 ```yml:.gitlab-ci.yml
 stages:
@@ -74,7 +75,7 @@ test-slack-notify:
     - 'curl -X POST --data-urlencode "payload=${MESSAGE}" --url ${SLACK_WEBHOOK_URL}'
 ```
 
-ファイルを追加しコミットすると GitLab Runner が実行されます
+ファイルを追加しコミットすると GitLab Runner が実行されます。
 
 ```console
 Running with gitlab-runner 14.10.0~beta.50.g1f2fe53e (1f2fe53e)
@@ -120,7 +121,7 @@ Job succeeded
 
 https://gitlab.com/mziyut/gitlab-ci-slack-notify-test/-/jobs/2415749798
 
-Job が走りきると Slack に設定したテストメッセージが送信されます
+Job が走りきると Slack に設定したテストメッセージが送信されます。
 
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/55950/fabed8f9-8889-1668-beb4-76d41d7e3590.png)
 

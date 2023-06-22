@@ -14,6 +14,7 @@
     "aws-service-name": true,
     "no-mixed-zenkaku-and-hankaku-alphabet": true,
     "no-todo": true,
-    "period-in-list-item": true
+    "period-in-list-item": true,
+    "preset-ja-technical-writing": true
   }
 }
