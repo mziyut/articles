@@ -11,6 +11,7 @@
       "alrllowNumber": true,
       "alrllowLexeme": true
     },
+    "aws-service-name": true,
     "no-todo": true
   }
 }
