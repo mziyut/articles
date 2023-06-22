@@ -12,6 +12,7 @@
       "alrllowLexeme": true
     },
     "aws-service-name": true,
+    "no-mixed-zenkaku-and-hankaku-alphabet": true,
     "no-todo": true
   }
 }
