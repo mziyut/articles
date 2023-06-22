@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/mziyut/qiita-articles#readme",
   "dependencies": {
-    "@increments/qiita-cli": "^0.0.19"
+    "@increments/qiita-cli": "^0.0.20"
   },
   "devDependencies": {
     "prettier": "^2.8.8"
