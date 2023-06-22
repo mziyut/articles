@@ -22,13 +22,13 @@ labels:
     description: Qiita articles
   - name: AWS
     color: E08634
-    description: Amazon Web Services
+    description: Amazon Web Services (AWS) - Cloud Computing Services
   - name: bug
     color: d73a4a
     description: Something isn't working
   - name: Datadog
     color: 632ca6
-    description: Datadog
+    description: Datadog - Cloud Monitoring as a Service
   - name: documentation
     color: 0075ca
     description: Improvements or additions to documentation
@@ -40,10 +40,13 @@ labels:
     description: New feature or request
   - name: GitHub Actions
     color: 1A61E2
+    description:
   - name: GitHub App
     color: 08B4B2
+    description:
   - name: GitHub
     color: 000000
+    description:
   - name: good first issue
     color: 7057ff
     description: Good for newcomers
@@ -55,6 +58,7 @@ labels:
     description: This doesn't seem right
   - name: JavaScript
     color: FBCA04
+    description:
   - name: merge when green
     color: 2cbe4e
     description: See: https://github.com/phstc/probot-merge-when-green/
@@ -63,6 +67,7 @@ labels:
     description: Further information is requested
   - name: Slack
     color: 76A2DD
+    description: Slack is your productivity platform
   - name: wontfix
     color: ffffff
     description: This will not be worked on
