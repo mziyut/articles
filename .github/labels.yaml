@@ -1,6 +1,6 @@
 - name: articles
   color: 55c550
-  description: null
+  description: articles
   aliases: []
 - name: automerge
   color: 0E8A16
@@ -8,7 +8,7 @@
   aliases: []
 - name: AWS
   color: E08634
-  description: null
+  description: AWS
   aliases: []
 - name: bug
   color: d73a4a
@@ -16,15 +16,15 @@
   aliases: []
 - name: Chef
   color: 14C268
-  description: null
+  description: Chef
   aliases: []
 - name: Datadog
   color: 632ca6
-  description: null
+  description: Datadog
   aliases: []
 - name: Docker
   color: 0052CC
-  description: null
+  description: Docker
   aliases: []
 - name: documentation
   color: 0075ca
@@ -40,15 +40,15 @@
   aliases: []
 - name: GitHub
   color: '000000'
-  description: null
+  description: GitHub
   aliases: []
 - name: 'GitHub Actions'
   color: 1A61E2
-  description: null
+  description: 'GitHub Actions'
   aliases: []
 - name: 'GitHub App'
   color: 08B4B2
-  description: null
+  description: 'GitHub App'
   aliases: []
 - name: 'good first issue'
   color: 7057ff
@@ -64,11 +64,11 @@
   aliases: []
 - name: JavaScript
   color: FBCA04
-  description: null
+  description: JavaScript
   aliases: []
 - name: PagerDuty
   color: 0E8A16
-  description: null
+  description: PagerDuty
   aliases: []
 - name: question
   color: d876e3
@@ -76,19 +76,19 @@
   aliases: []
 - name: size/L
   color: A14C05
-  description: null
+  description: 'https://github.com/apps/pull-request-size'
   aliases: []
 - name: size/M
   color: 7F7203
-  description: null
+  description: 'https://github.com/apps/pull-request-size'
   aliases: []
 - name: size/S
   color: 5D9801
-  description: null
+  description: 'https://github.com/apps/pull-request-size'
   aliases: []
 - name: Slack
   color: 76A2DD
-  description: null
+  description: Slack
   aliases: []
 - name: wontfix
   color: ffffff
