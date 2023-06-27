@@ -46,14 +46,14 @@
   color: '000000'
   description: GitHub
   aliases: []
-- name: github_app
-  color: 08B4B2
-  description: 'GitHub App'
-  aliases: ['GitHub App']
 - name: github_actions
   color: '000000'
   description: 'Pull requests that update GitHub Actions code'
-  aliases: ['GitHub Actions']
+  aliases: []
+- name: github_app
+  color: 08B4B2
+  description: 'GitHub App'
+  aliases: []
 - name: 'good first issue'
   color: 7057ff
   description: 'Good for newcomers'
