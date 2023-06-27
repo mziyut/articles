@@ -18,6 +18,9 @@ jobs:
   publish_articles:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    environment:
+      name: production
+      url: https://qiita.com/mziyut
     env:
       NODE_AUTH_TOKEN: ${{ secrets.AUTH_TOKEN_FOR_GITHUBPKG }}
     steps:
