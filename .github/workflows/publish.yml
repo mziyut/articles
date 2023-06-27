@@ -1,0 +1,40 @@
+name: Publish articles
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish_articles:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.AUTH_TOKEN_FOR_GITHUBPKG }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          cache: 'yarn'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@increments'
+      - run: yarn install
+      - run: yarn run qiita publish --all
+        env:
+          QIITA_TOKEN: ${{ secrets.QIITA_TOKEN }}
+      - run: yarn run format:fix
+      - uses: peter-evans/create-pull-request@v4
+        with:
+          commit-message: Publish articles
+          delete-branch: true
+          title: Publish articles
+          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          reviewers: mziyut
