@@ -1,115 +1,96 @@
--
-  name: articles
+- name: articles
   color: 55c550
   description: null
   aliases: []
--
-  name: automerge
+- name: automerge
   color: 0E8A16
   description: 'https://github.com/apps/mergery'
   aliases: []
--
-  name: AWS
+- name: AWS
   color: E08634
   description: null
   aliases: []
--
-  name: bug
+- name: bug
   color: d73a4a
-  description: 'Something isn''t working'
+  description: "Something isn't working"
   aliases: []
--
-  name: Chef
+- name: Chef
   color: 14C268
   description: null
   aliases: []
--
-  name: Datadog
+- name: Datadog
   color: 632ca6
   description: null
   aliases: []
--
-  name: Docker
+- name: Docker
   color: 0052CC
   description: null
   aliases: []
--
-  name: documentation
+- name: documentation
   color: 0075ca
   description: 'Improvements or additions to documentation'
   aliases: []
--
-  name: duplicate
+- name: duplicate
   color: cfd3d7
   description: 'This issue or pull request already exists'
   aliases: []
--
-  name: enhancement
+- name: enhancement
   color: a2eeef
   description: 'New feature or request'
   aliases: []
--
-  name: GitHub
+- name: GitHub
   color: '000000'
   description: null
   aliases: []
--
-  name: 'GitHub Actions'
+- name: 'GitHub Actions'
   color: 1A61E2
   description: null
   aliases: []
--
-  name: 'GitHub App'
+- name: 'GitHub App'
   color: 08B4B2
   description: null
   aliases: []
--
-  name: 'good first issue'
+- name: 'good first issue'
   color: 7057ff
   description: 'Good for newcomers'
   aliases: []
--
-  name: 'help wanted'
+- name: 'help wanted'
   color: '008672'
   description: 'Extra attention is needed'
   aliases: []
--
-  name: invalid
+- name: invalid
   color: e4e669
-  description: 'This doesn''t seem right'
+  description: "This doesn't seem right"
   aliases: []
--
-  name: JavaScript
+- name: JavaScript
   color: FBCA04
   description: null
   aliases: []
--
-  name: PagerDuty
+- name: PagerDuty
   color: 0E8A16
   description: null
   aliases: []
--
-  name: question
+- name: question
   color: d876e3
   description: 'Further information is requested'
   aliases: []
--
-  name: size/M
+- name: size/L
+  color: A14C05
+  description: null
+  aliases: []
+- name: size/M
   color: 7F7203
   description: null
   aliases: []
--
-  name: size/S
+- name: size/S
   color: 5D9801
   description: null
   aliases: []
--
-  name: Slack
+- name: Slack
   color: 76A2DD
   description: null
   aliases: []
--
-  name: wontfix
+- name: wontfix
   color: ffffff
   description: 'This will not be worked on'
   aliases: []
