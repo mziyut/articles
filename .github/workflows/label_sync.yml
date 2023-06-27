@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+    paths:
+      - '.github/workflows/label_sync.yml'
+      - '.github/labels.yaml'
   workflow_dispatch:
 
 permissions:
