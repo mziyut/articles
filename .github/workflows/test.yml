@@ -1,0 +1,43 @@
+name: Test
+
+on:
+  push:
+
+permissions:
+  contents: read
+  packages: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  textlint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.AUTH_TOKEN_FOR_GITHUBPKG }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          cache: 'yarn'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@increments'
+      - run: yarn install
+      - run: yarn run textlint
+
+  prettier:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.AUTH_TOKEN_FOR_GITHUBPKG }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          cache: 'yarn'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@increments'
+      - run: yarn install
+      - run: yarn run prettier
