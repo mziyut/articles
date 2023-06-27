@@ -37,7 +37,7 @@ jobs:
         env:
           QIITA_TOKEN: ${{ secrets.QIITA_TOKEN }}
       - run: yarn run format:fix
-      - uses: peter-evans/create-pull-request@v4
+      - uses: peter-evans/create-pull-request@v5
         with:
           commit-message: Publish articles
           delete-branch: true
