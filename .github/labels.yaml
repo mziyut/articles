@@ -78,6 +78,14 @@
   color: d876e3
   description: 'Further information is requested'
   aliases: []
+- name: rails
+  color: B60205
+  description: 'Ruby on Rails'
+  aliases: []
+- name: ruby
+  color: B60205
+  description: Ruby
+  aliases: []
 - name: size/L
   color: A14C05
   description: 'https://github.com/apps/pull-request-size'
