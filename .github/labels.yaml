@@ -6,7 +6,7 @@
   color: 0E8A16
   description: 'https://github.com/apps/mergery'
   aliases: []
-- name: AWS
+- name: aws
   color: E08634
   description: AWS
   aliases: []
@@ -14,15 +14,19 @@
   color: d73a4a
   description: "Something isn't working"
   aliases: []
-- name: Chef
+- name: chef
   color: 14C268
   description: Chef
   aliases: []
-- name: Datadog
+- name: datadog
   color: 632ca6
   description: Datadog
   aliases: []
-- name: Docker
+- name: dependencies
+  color: 0366d6
+  description: 'Pull requests that update a dependency file'
+  aliases: []
+- name: docker
   color: 0052CC
   description: Docker
   aliases: []
@@ -38,18 +42,18 @@
   color: a2eeef
   description: 'New feature or request'
   aliases: []
-- name: GitHub
+- name: github
   color: '000000'
   description: GitHub
   aliases: []
-- name: 'GitHub Actions'
-  color: 1A61E2
-  description: 'GitHub Actions'
-  aliases: []
-- name: 'GitHub App'
+- name: github_app
   color: 08B4B2
   description: 'GitHub App'
-  aliases: []
+  aliases: ['GitHub App']
+- name: github_actions
+  color: '000000'
+  description: 'Pull requests that update GitHub Actions code'
+  aliases: ['GitHub Actions']
 - name: 'good first issue'
   color: 7057ff
   description: 'Good for newcomers'
@@ -62,11 +66,11 @@
   color: e4e669
   description: "This doesn't seem right"
   aliases: []
-- name: JavaScript
+- name: javascript
   color: FBCA04
   description: JavaScript
   aliases: []
-- name: PagerDuty
+- name: pagerduty
   color: 0E8A16
   description: PagerDuty
   aliases: []
@@ -86,7 +90,11 @@
   color: 5D9801
   description: 'https://github.com/apps/pull-request-size'
   aliases: []
-- name: Slack
+- name: size/XS
+  color: 3CBF00
+  description: 'https://github.com/apps/pull-request-size'
+  aliases: []
+- name: slack
   color: 76A2DD
   description: Slack
   aliases: []
