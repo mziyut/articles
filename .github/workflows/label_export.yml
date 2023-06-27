@@ -1,23 +1,31 @@
-name: Publish articles
+name: Export label
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - '.github/workflows/label_export.yml'
   workflow_dispatch:
 
 permissions:
+  issues: read
   contents: write
   pull-requests: write
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: false
-
 jobs:
-  publish_articles:
+  export_labels:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    steps:
+      - uses: EndBug/export-label-config@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  create_pull_request:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs:
+      - export_labels
     env:
       NODE_AUTH_TOKEN: ${{ secrets.AUTH_TOKEN_FOR_GITHUBPKG }}
     steps:
@@ -30,14 +38,17 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           scope: '@increments'
       - run: yarn install
-      - run: yarn run qiita publish --all
-        env:
-          QIITA_TOKEN: ${{ secrets.QIITA_TOKEN }}
+      - uses: actions/download-artifact@v3
+        with:
+          name: Label config
+      - run: cp labels.yaml .github/labels.yaml
       - run: yarn run format:fix
       - uses: peter-evans/create-pull-request@v4
         with:
-          commit-message: Publish articles
+          commit-message: Update labels
           delete-branch: true
-          title: Publish articles
+          title: Update labels
           committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           reviewers: mziyut
+          add-paths: |
+            .github/labels.yaml
