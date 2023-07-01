@@ -42,3 +42,9 @@ jobs:
           title: Publish articles
           committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           reviewers: mziyut
+          branch: create-pull-request/patch-publish-articles
+          add-paths: |
+            public/*
+          labels: |
+            articles
+            automerge
