@@ -1,6 +1,6 @@
 - name: articles
   color: 55c550
-  description: articles
+  description: 'Qiita articles'
   aliases: []
 - name: automerge
   color: 0E8A16
