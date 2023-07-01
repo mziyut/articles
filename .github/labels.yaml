@@ -70,6 +70,10 @@
   color: FBCA04
   description: JavaScript
   aliases: []
+- name: labels
+  color: fef2c0
+  description: labels
+  aliases: []
 - name: pagerduty
   color: 0E8A16
   description: PagerDuty
