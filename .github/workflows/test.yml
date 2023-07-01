@@ -16,8 +16,6 @@ jobs:
   textlint:
     runs-on: ubuntu-latest
     timeout-minutes: 2
-    env:
-      NODE_AUTH_TOKEN: ${{ secrets.AUTH_TOKEN_FOR_GITHUBPKG }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -29,8 +27,6 @@ jobs:
   prettier:
     runs-on: ubuntu-latest
     timeout-minutes: 2
-    env:
-      NODE_AUTH_TOKEN: ${{ secrets.AUTH_TOKEN_FOR_GITHUBPKG }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
