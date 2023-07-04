@@ -1,0 +1,146 @@
+---
+title: GitHub Label の管理をコード・ GitHub Web 双方から行えるようにする
+tags:
+  - 'GitHub'
+  - 'GitHubActions'
+  - 'label'
+  - 'CICD'
+private: false
+updated_at: ''
+id: null
+organization_url_name: qiita-inc
+---
+
+この記事は、 [この記事誰得？ 私しか得しないニッチな技術で記事投稿！ - Qiita](https://qiita.com/official-events/5d4f04cf2ba0cdbc8821) の参加記事です。
+
+## はじめに
+
+GitHub Label をコード管理している場合、何かしらのツールから反映を行う場面が多いはず。
+しかし、 GitHub (Web) からも Label は変更出来てしまうためいつの間にか差分が生じてしまうこともあるはず。
+
+上手く差分を吸収するために GitHub Actinos を使って簡単に設定しました。
+
+## GitHub Label を export する
+
+`EndBug/export-label-config` を利用し `.github/labels.yml` に現在設定されている Label を export します
+
+https://github.com/EndBug/export-label-config
+
+```yaml:.github/workflows/label_export.yml
+name: Export label
+
+on:
+  workflow_dispatch:
+
+permissions:
+  issues: read
+
+jobs:
+  export_labels:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: EndBug/export-label-config@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+```
+
+上記のような定義をしただけでも、 GitHub Label が export され Artifact に YAML と JSON それぞれのファイルがアップロードされます。
+ただし、 Web 上から変更後毎回 Job の実行 → Download を行うのは面倒なので、 Pull request を作成し merge するだけにしたいと思います。
+
+```yaml:.github/workflows/label_export.yml
+name: Export label
+
+on:
+  label:
+    types: [created, edited, deleted]
+  workflow_dispatch:
+
+permissions:
+  issues: read
+  contents: write
+  pull-requests: write
+
+jobs:
+  export_labels:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: EndBug/export-label-config@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  create_pull_request:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs:
+      - export_labels
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: main
+      - uses: actions/download-artifact@v3
+        with:
+          name: Label config
+      - run: cp labels.yaml .github/labels.yaml
+      - uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: Update labels
+          delete-branch: true
+          title: Update labels
+          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          branch: create-pull-request/patch-export-label
+          add-paths: |
+            .github/labels.yaml
+```
+
+先ほどとの違いは `export_labels` job で得た差分を `create_pull_request` job で Pull request にしています。
+
+また、 workflow の実行条件に `on.label.*` を追加しました。
+追加することで GitHub Web から Label を変更したら直ぐに job が実行 Pull request が作成されます。
+
+## GitHub Label を適用する
+
+GitHub Label の適用は `EndBug/label-sync` を使用します
+
+https://github.com/EndBug/label-sync
+
+詳細は README を呼んで頂いた方が早いので割愛しますが、私は ▼ のように設定しています。
+
+```yaml:.github/workflows/label_sync.yml
+name: Sync labels
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/labels.yaml'
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  label_sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v3
+      - uses: EndBug/label-sync@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: .github/labels.yaml
+          delete-other-labels: true
+```
+
+## References
+
+https://github.com/Financial-Times/github-label-sync
+
+https://github.com/EndBug/export-label-config
+
+https://github.com/mziyut/qiita-articles/blob/73747aab5530d60fe73c10a20938f956f39a7e76/.github/workflows/label_export.yml
+
+https://github.com/mziyut/qiita-articles/blob/73747aab5530d60fe73c10a20938f956f39a7e76/.github/workflows/label_sync.yml
