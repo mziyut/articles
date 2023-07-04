@@ -1,13 +1,13 @@
 ---
 title: GitHub Label の管理をコード・ GitHub Web 双方から行えるようにする
 tags:
-  - 'GitHub'
-  - 'GitHubActions'
-  - 'label'
-  - 'CICD'
+  - GitHub
+  - label
+  - CICD
+  - GitHubActions
 private: false
-updated_at: ''
-id: null
+updated_at: '2023-07-05T01:22:22+09:00'
+id: e3586a3f478f9d94f433
 organization_url_name: qiita-inc
 ---
 
