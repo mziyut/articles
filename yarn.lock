@@ -1068,10 +1068,10 @@
   resolved "https://registry.yarnpkg.com/@nicolo-ribaudo/chokidar-2/-/chokidar-2-2.1.8-no-fsevents.3.tgz#323d72dd25103d0c4fbdce89dadf574a787b1f9b"
   integrity sha512-s88O1aVtXftvp5bCPB7WnmXc5IwOZZ7YPuwNPt+GtOOXpPvad1LfbmjYv+qII7zP6RU2QGnqve27dnLycEnyEQ==
 
-"@qiita/qiita-cli@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@qiita/qiita-cli/-/qiita-cli-0.1.0.tgz#0281b1421149db4cbf93db589ebdc49c085e7d71"
-  integrity sha512-rgUB2hmHuzMWS1Kr8jhXNx5u/zofXJbw1NPZbA2pmtJH0zaSvOrayLYlH77S0wK1+krz+BCskExeQKfRN+J7DQ==
+"@qiita/qiita-cli@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@qiita/qiita-cli/-/qiita-cli-0.2.0.tgz#0920e4656970e5f2743ab3902a4defa0f69d30e4"
+  integrity sha512-U1dWYUePLIKCpY5/jtqA0zKeLnk2rhrUUkv87ifeb8qyc7RgaXq4sDgMTMg9CQOKd99qMVUIttE5I+OqiBocXA==
   dependencies:
     arg "^5.0.2"
     chokidar "^3.5.3"
