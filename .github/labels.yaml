@@ -20,7 +20,7 @@
   aliases: []
 - name: datadog
   color: 632ca6
-  description: Datadog
+  description: 'Datadog: Cloud Monitoring as a Service'
   aliases: []
 - name: dependencies
   color: 0366d6
@@ -68,15 +68,23 @@
   aliases: []
 - name: javascript
   color: FBCA04
-  description: JavaScript
+  description: 'Pull requests that update JavaScript code'
   aliases: []
 - name: labels
   color: fef2c0
   description: labels
   aliases: []
+- name: markdown
+  color: 1F0135
+  description: 'Pull requests that update Markdown code'
+  aliases: []
 - name: pagerduty
   color: 0E8A16
   description: PagerDuty
+  aliases: []
+- name: pulumi
+  color: BF347D
+  description: Pulumi
   aliases: []
 - name: question
   color: d876e3
@@ -85,6 +93,10 @@
 - name: rails
   color: B60205
   description: 'Ruby on Rails'
+  aliases: []
+- name: react
+  color: 6B9A67
+  description: React
   aliases: []
 - name: ruby
   color: B60205
@@ -109,6 +121,18 @@
 - name: slack
   color: 76A2DD
   description: Slack
+  aliases: []
+- name: td-agent
+  color: 358FF2
+  description: 'Treasure Agent (td-agent)'
+  aliases: []
+- name: terraform
+  color: 0C0BAB
+  description: Terraform
+  aliases: []
+- name: textlint
+  color: 85825B
+  description: textlint
   aliases: []
 - name: wontfix
   color: ffffff
