@@ -1,0 +1,13 @@
+name: Pull request
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  assignAuthor:
+    name: Assign author to Pull request
+    runs-on: ubuntu-latest
+    steps:
+      - name: Assign author to Pull request
+        uses: technote-space/assign-author@v1
