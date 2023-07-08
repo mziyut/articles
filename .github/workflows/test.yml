@@ -23,6 +23,10 @@ jobs:
           cache: 'yarn'
       - run: yarn install
       - run: yarn run textlint
+      - run: yarn run textlint:codecov
+      - uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   prettier:
     runs-on: ubuntu-latest
