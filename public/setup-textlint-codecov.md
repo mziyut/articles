@@ -1,0 +1,138 @@
+---
+title: textlint の実行結果を Codecov に送信する
+tags:
+  - 'textlint'
+  - 'codecov'
+  - 'GitHubActions'
+  - 'CICD'
+private: false
+updated_at: ''
+id: null
+organization_url_name: qiita-inc
+---
+
+## はじめに
+
+Qiita CLI が beta release されました。
+
+https://blog.qiita.com/qiita-cli-beta-release/
+
+Beta release 後に textlint の結果を Codecov に記録するように設定しました。
+設定に必要な情報や設定を簡単になりますが記載します。
+
+## 実行環境
+
+今回背屮した repository の version は記載の通りです。
+また、 textlint は設定済みの環境を想定しています。
+
+```sh
+> node -v
+v18.14.2
+> yarn -v
+1.22.19
+```
+
+この記事では `yarn` を使って設定します。
+`npm` を使っている方は読み替えてください。
+
+## 使用する パッケージ や action
+
+### npm packages
+
+https://www.npmjs.com/package/codecov.io
+
+https://www.npmjs.com/package/textlint-formatter-codecov
+
+### actions
+
+https://github.com/codecov/codecov-action
+
+## 必要な package を install する
+
+先ほど記載した package を install します。
+
+```sh
+yarn add -D codecov.io textlint-formatter-codecov
+```
+
+必要に応じて `package.json` の `scripts` に textlint の実行条件などを記載します。
+私は以下のように記載しました。
+
+今回は `tnp/` directory いかに JSON ファイルを出力するように設定しています。
+`mkdir tmp` 等で事前に `tmp` directory を作成しておいてください。
+
+```json:package.json
+{
+  "scripts": {
+    "textlint:codecov": "textlint --config .textlintrc.json -f codecov -o tmp/codecov.json *"
+  }
+}
+```
+
+## action を設定する
+
+`tmp/codecov.json` に実行結果が出力されるように設定できました。
+次に、 CI/CD 上で実行した textlint の結果を Codecov に通知する設定をします。
+
+### Codecov にアクセスし Token を取得する
+
+Codecov にログインし token を取得します
+
+https://about.codecov.io/
+
+Token の取得方法は以下記事を参考にしてください。
+
+https://docs.codecov.com/docs/quick-start
+
+Token を取得出来たら GitHub の Secret variables に定義します。
+
+https://docs.github.com/en/actions/security-guides/encrypted-secrets
+
+Secret variables に定義まで終わったら yml の準備をします。
+
+### GitHub Actions の設定をする
+
+先ほど設定した Secret variables を用いて、 textlint の結果を Codecov に送信する設定を書きます。
+参考までに最低限の設定を記載します。
+
+```yaml:.github/workflows/test.yml
+name: Text
+
+on:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  textlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          cache: 'yarn'
+      - run: yarn install
+      - run: yarn run textlint:codecov
+      - uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+```
+
+ここまで終わったら実際に GitHub に push して textlint と Codecov を動作させ確認します。
+
+![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/55950/821a16f7-0f6a-d353-8aa5-972ce7ffc9b3.png)
+
+https://app.codecov.io/github/mziyut/qiita-articles/commit/0bbf2d71145d48353b83926a1a3a237d92a030f2
+
+GitHub Actions 上で実行が確認出来たら完了です。
+
+## References
+
+https://github.com/mziyut/qiita-articles/pull/50
+
+https://app.codecov.io/github/mziyut/qiita-articles/pull/4
+
+https://github.com/azu/textlint-formatter-codecov
+
+https://github.com/codecov/codecov-action
