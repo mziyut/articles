@@ -1,13 +1,13 @@
 ---
 title: textlint の実行結果を Codecov に送信する
 tags:
-  - 'textlint'
-  - 'codecov'
-  - 'GitHubActions'
-  - 'CICD'
+  - codecov
+  - textlint
+  - CICD
+  - GitHubActions
 private: false
-updated_at: ''
-id: null
+updated_at: '2023-07-13T22:00:04+09:00'
+id: 8dcce9eb731a98724c3e
 organization_url_name: qiita-inc
 ---
 
