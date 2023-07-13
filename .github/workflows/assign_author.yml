@@ -1,10 +1,13 @@
-name: Pull request
+name: Assign author
 
 on:
+  issues:
+    types: [opened]
   pull_request:
     types: [opened]
 
 permissions:
+  issues: write
   pull-requests: write
 
 jobs:
