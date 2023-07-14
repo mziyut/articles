@@ -1,4 +1,4 @@
-name: Qiita - test
+name: Test
 
 on:
   push:
