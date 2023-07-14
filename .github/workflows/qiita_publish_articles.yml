@@ -10,6 +10,10 @@ permissions:
   contents: write
   pull-requests: write
 
+defaults:
+  run:
+    shell: bash
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
@@ -29,7 +33,7 @@ jobs:
         with:
           cache: 'yarn'
       - run: yarn install
-      - run: yarn run qiita publish --all
+      - run: yarn workspace qiita publish:all
         env:
           QIITA_TOKEN: ${{ secrets.QIITA_TOKEN }}
       - run: yarn run format:fix
@@ -42,7 +46,7 @@ jobs:
           reviewers: mziyut
           branch: create-pull-request/patch-publish-articles
           add-paths: |
-            public/*
+            qiita/public/*
           labels: |
             articles
             automerge

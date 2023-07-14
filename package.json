@@ -1,20 +1,15 @@
 {
-  "name": "@mziyut/qiita-articles",
+  "name": "@mziyut/articles",
   "version": "0.1.0",
-  "description": "mziyut's qiita-articles",
   "main": "index.js",
   "scripts": {
     "format:": "run-s prettier textlint",
     "format:fix": "run-s prettier:fix textlint:fix",
-    "qiita:new": "qiita new",
-    "qiita:preview": "qiita preview",
-    "qiita:publish": "qiita publish",
     "prettier": "prettier --check .",
     "prettier:fix": "prettier --write .",
     "textlint": "textlint --config .textlintrc.json *",
     "textlint:fix": "textlint --config .textlintrc.json --fix *",
     "textlint:codecov": "textlint --config .textlintrc.json -f codecov -o tmp/codecov.json *",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky install",
     "lint-staged": "lint-staged"
   },
@@ -23,15 +18,16 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mziyut/qiita-articles.git"
+    "url": "git+https://github.com/mziyut/articles.git"
   },
   "bugs": {
-    "url": "https://github.com/mziyut/qiita-articles/issues"
+    "url": "https://github.com/mziyut/articles/issues"
   },
-  "homepage": "https://github.com/mziyut/qiita-articles#readme",
-  "dependencies": {
-    "@qiita/qiita-cli": "^0.4.0"
-  },
+  "homepage": "https://github.com/mziyut/articles#readme",
+  "private": true,
+  "workspaces": [
+    "qiita"
+  ],
   "devDependencies": {
     "@textlint-ja/textlint-rule-no-synonyms": "^1.3.0",
     "codecov.io": "^0.1.6",
