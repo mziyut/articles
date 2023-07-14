@@ -1,4 +1,4 @@
-name: Publish articles
+name: Qiita - publish articles
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     environment:
-      name: production
+      name: qiita
       url: https://qiita.com/mziyut
     steps:
       - uses: actions/checkout@v3
