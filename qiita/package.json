@@ -1,0 +1,17 @@
+{
+  "name": "qiita",
+  "version": "0.1.0",
+  "description": "mziyut's qiita-articles",
+  "main": "index.js",
+  "scripts": {
+    "new": "qiita new",
+    "preview": "qiita preview",
+    "publish": "qiita publish",
+    "publish:all": "qiita publish --all",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@qiita/qiita-cli": "^0.4.0"
+  },
+  "devDependencies": {}
+}
