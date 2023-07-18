@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "main": "index.js",
   "scripts": {
+    "prettier": "prettier --check .",
+    "prettier:fix": "prettier --write .",
     "prepare": "husky install",
     "lint-staged": "lint-staged"
   },
@@ -21,9 +23,11 @@
   "workspaces": [
     "qiita"
   ],
+  "dependencies": {},
   "devDependencies": {
     "husky": "^8.0.3",
-    "lint-staged": "^13.2.3"
+    "lint-staged": "^13.2.3",
+    "prettier": "^3.0.0"
   },
   "lint-staged": {
     "**/*": [
@@ -33,5 +37,8 @@
       "yarn workspaces run textlint --config .textlintrc.json --fix",
       "yarn workspaces run textlint --config .textlintrc.json"
     ]
+  },
+  "prettier": {
+    "singleQuote": true
   }
 }

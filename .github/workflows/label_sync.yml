@@ -3,8 +3,8 @@ name: Sync labels
 on:
   push:
     paths:
-      - ".github/labels.yaml"
-      - ".github/workflows/label_sync.yml"
+      - '.github/labels.yaml'
+      - '.github/workflows/label_sync.yml'
   workflow_dispatch:
 
 permissions:

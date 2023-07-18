@@ -3,7 +3,7 @@ name: Export label
 on:
   push:
     paths:
-      - ".github/workflows/label_export.yml"
+      - '.github/workflows/label_export.yml'
   label:
     types: [created, edited, deleted]
   workflow_dispatch:
@@ -33,13 +33,12 @@ jobs:
           ref: main
       - uses: actions/setup-node@v3
         with:
-          cache: "yarn"
-      - run: yarn install
+          cache: 'yarn'
       - uses: actions/download-artifact@v3
         with:
           name: Label config
       - run: cp labels.yaml .github/labels.yaml
-      - run: yarn run format:fix
+      - run: npx prettier .github/labels.yaml --write
       - uses: peter-evans/create-pull-request@v5
         with:
           commit-message: Update labels
