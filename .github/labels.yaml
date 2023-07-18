@@ -1,10 +1,10 @@
 - name: articles
   color: 55c550
-  description: 'Qiita articles'
+  description: "Qiita articles"
   aliases: []
 - name: automerge
   color: 0E8A16
-  description: 'https://github.com/apps/mergery'
+  description: "https://github.com/apps/mergery"
   aliases: []
 - name: aws
   color: E08634
@@ -20,11 +20,11 @@
   aliases: []
 - name: datadog
   color: 632ca6
-  description: 'Datadog: Cloud Monitoring as a Service'
+  description: "Datadog: Cloud Monitoring as a Service"
   aliases: []
 - name: dependencies
   color: 0366d6
-  description: 'Pull requests that update a dependency file'
+  description: "Pull requests that update a dependency file"
   aliases: []
 - name: docker
   color: 0052CC
@@ -32,35 +32,35 @@
   aliases: []
 - name: documentation
   color: 0075ca
-  description: 'Improvements or additions to documentation'
+  description: "Improvements or additions to documentation"
   aliases: []
 - name: duplicate
   color: cfd3d7
-  description: 'This issue or pull request already exists'
+  description: "This issue or pull request already exists"
   aliases: []
 - name: enhancement
   color: a2eeef
-  description: 'New feature or request'
+  description: "New feature or request"
   aliases: []
 - name: github
-  color: '000000'
+  color: "000000"
   description: GitHub
   aliases: []
 - name: github_actions
-  color: '000000'
-  description: 'Pull requests that update GitHub Actions code'
+  color: "000000"
+  description: "Pull requests that update GitHub Actions code"
   aliases: []
 - name: github_app
   color: 08B4B2
-  description: 'GitHub App'
+  description: "GitHub App"
   aliases: []
-- name: 'good first issue'
+- name: "good first issue"
   color: 7057ff
-  description: 'Good for newcomers'
+  description: "Good for newcomers"
   aliases: []
-- name: 'help wanted'
-  color: '008672'
-  description: 'Extra attention is needed'
+- name: "help wanted"
+  color: "008672"
+  description: "Extra attention is needed"
   aliases: []
 - name: invalid
   color: e4e669
@@ -68,7 +68,7 @@
   aliases: []
 - name: javascript
   color: FBCA04
-  description: 'Pull requests that update JavaScript code'
+  description: "Pull requests that update JavaScript code"
   aliases: []
 - name: labels
   color: fef2c0
@@ -76,7 +76,7 @@
   aliases: []
 - name: markdown
   color: 1F0135
-  description: 'Pull requests that update Markdown code'
+  description: "Pull requests that update Markdown code"
   aliases: []
 - name: pagerduty
   color: 0E8A16
@@ -88,11 +88,11 @@
   aliases: []
 - name: question
   color: d876e3
-  description: 'Further information is requested'
+  description: "Further information is requested"
   aliases: []
 - name: rails
   color: B60205
-  description: 'Ruby on Rails'
+  description: "Ruby on Rails"
   aliases: []
 - name: react
   color: 6B9A67
@@ -104,19 +104,19 @@
   aliases: []
 - name: size/L
   color: A14C05
-  description: 'https://github.com/apps/pull-request-size'
+  description: "https://github.com/apps/pull-request-size"
   aliases: []
 - name: size/M
   color: 7F7203
-  description: 'https://github.com/apps/pull-request-size'
+  description: "https://github.com/apps/pull-request-size"
   aliases: []
 - name: size/S
   color: 5D9801
-  description: 'https://github.com/apps/pull-request-size'
+  description: "https://github.com/apps/pull-request-size"
   aliases: []
 - name: size/XS
   color: 3CBF00
-  description: 'https://github.com/apps/pull-request-size'
+  description: "https://github.com/apps/pull-request-size"
   aliases: []
 - name: slack
   color: 76A2DD
@@ -124,7 +124,7 @@
   aliases: []
 - name: td-agent
   color: 358FF2
-  description: 'Treasure Agent (td-agent)'
+  description: "Treasure Agent (td-agent)"
   aliases: []
 - name: terraform
   color: 0C0BAB
@@ -136,5 +136,5 @@
   aliases: []
 - name: wontfix
   color: ffffff
-  description: 'This will not be worked on'
+  description: "This will not be worked on"
   aliases: []
