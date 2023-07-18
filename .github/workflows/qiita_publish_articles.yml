@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "qiita/**"
+      - ".github/workflows/qiita_publish_articles.yml"
   workflow_dispatch:
 
 permissions:
@@ -31,7 +34,7 @@ jobs:
           ref: main
       - uses: actions/setup-node@v3
         with:
-          cache: 'yarn'
+          cache: "yarn"
       - run: yarn install
       - run: yarn workspace qiita publish:all
         env:
