@@ -1,10 +1,9 @@
 name: Export label
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
+  push:
     paths:
-      - '.github/workflows/label_export.yml'
+      - ".github/workflows/label_export.yml"
   label:
     types: [created, edited, deleted]
   workflow_dispatch:
@@ -34,7 +33,7 @@ jobs:
           ref: main
       - uses: actions/setup-node@v3
         with:
-          cache: 'yarn'
+          cache: "yarn"
       - run: yarn install
       - uses: actions/download-artifact@v3
         with:

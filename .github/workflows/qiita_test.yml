@@ -1,7 +1,10 @@
-name: Test
+name: Qiita - Test
 
 on:
   push:
+    paths:
+      - "qiita/**"
+      - ".github/workflows/qiita_test.yml"
 
 permissions:
   contents: read
@@ -24,13 +27,13 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          cache: 'yarn'
+          cache: "yarn"
       - run: yarn install
-      - run: yarn run textlint
-      - run: yarn run textlint:codecov
+      - run: yarn workspace qiita textlint:codecov
       - uses: codecov/codecov-action@v3
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      - run: yarn workspace qiita textlint
 
   prettier:
     runs-on: ubuntu-latest
@@ -39,17 +42,6 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          cache: 'yarn'
+          cache: "yarn"
       - run: yarn install
-      - run: yarn run prettier
-
-  label_sync:
-    runs-on: ubuntu-latest
-    timeout-minutes: 2
-    steps:
-      - uses: actions/checkout@v3
-      - uses: EndBug/label-sync@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          config-file: .github/labels.yaml
-          dry-run: true
+      - run: yarn workspace qiita prettier
