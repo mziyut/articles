@@ -5,8 +5,8 @@ on:
     branches:
       - main
     paths:
-      - "qiita/**"
-      - ".github/workflows/qiita_publish_articles.yml"
+      - 'qiita/**'
+      - '.github/workflows/qiita_publish_articles.yml'
   workflow_dispatch:
 
 permissions:
@@ -34,12 +34,12 @@ jobs:
           ref: main
       - uses: actions/setup-node@v3
         with:
-          cache: "yarn"
+          cache: 'yarn'
       - run: yarn install
       - run: yarn workspace qiita publish:all
         env:
           QIITA_TOKEN: ${{ secrets.QIITA_TOKEN }}
-      - run: yarn run format:fix
+      - run: yarn workspace qiita format:fix
       - uses: peter-evans/create-pull-request@v5
         with:
           commit-message: Publish articles
