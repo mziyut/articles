@@ -1,6 +1,6 @@
 - name: articles
-  color: 55c550
-  description: 'Qiita articles'
+  color: 4D6626
+  description: Articles
   aliases: []
 - name: automerge
   color: 0E8A16
@@ -17,6 +17,10 @@
 - name: chef
   color: 14C268
   description: Chef
+  aliases: []
+- name: codecov
+  color: 9999B8
+  description: CodeCov
   aliases: []
 - name: datadog
   color: 632ca6
@@ -78,6 +82,10 @@
   color: 1F0135
   description: 'Pull requests that update Markdown code'
   aliases: []
+- name: openai
+  color: 03D5EB
+  description: OpenAI
+  aliases: []
 - name: pagerduty
   color: 0E8A16
   description: PagerDuty
@@ -85,6 +93,10 @@
 - name: pulumi
   color: BF347D
   description: Pulumi
+  aliases: []
+- name: qiita
+  color: 55c500
+  description: Qiita
   aliases: []
 - name: question
   color: d876e3
@@ -114,9 +126,17 @@
   color: 5D9801
   description: 'https://github.com/apps/pull-request-size'
   aliases: []
+- name: size/XL
+  color: 7AE2C1
+  description: 'ttps://github.com/apps/pull-request-size'
+  aliases: []
 - name: size/XS
   color: 3CBF00
   description: 'https://github.com/apps/pull-request-size'
+  aliases: []
+- name: size/XXL
+  color: d93f0b
+  description: 'ttps://github.com/apps/pull-request-size'
   aliases: []
 - name: slack
   color: 76A2DD
@@ -137,4 +157,8 @@
 - name: wontfix
   color: ffffff
   description: 'This will not be worked on'
+  aliases: []
+- name: yaml
+  color: 9B3520
+  description: YAML
   aliases: []
