@@ -8,6 +8,8 @@
     "preview": "qiita preview",
     "publish": "qiita publish",
     "publish:all": "qiita publish --all",
+    "pull": "qiita pull",
+    "pull:force": "qiita pull --force",
     "format": "run-s prettier textlint",
     "format:fix": "run-s prettier:fix textlint:fix",
     "prettier": "prettier --check .",

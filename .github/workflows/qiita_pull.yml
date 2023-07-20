@@ -1,0 +1,39 @@
+name: Qiita - pull articles
+
+on:
+  schedule:
+    - cron: '0 21 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  pull_articles:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: master
+      - uses: actions/setup-node@v3
+        with:
+          cache: 'yarn'
+      - run: yarn install
+      - run: yarn workspace qiita pull:force
+        env:
+          QIITA_TOKEN: ${{ secrets.QIITA_TOKEN }}
+      - run: yarn workspace qiita format:fix
+      - uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: Pull articles
+          delete-branch: true
+          title: Pull articles
+          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          reviewers: mziyut
+          branch: create-pull-request/patch-pull-articles
+          add-paths: |
+            qiita/public/*
+          labels: |
+            articles
