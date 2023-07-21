@@ -3,6 +3,9 @@ name: Qiita - pull articles
 on:
   schedule:
     - cron: '*/20 * * * *'
+  push:
+    paths:
+      - '.github/workflows/qiita_pull_articles.yml'
   workflow_dispatch:
 
 permissions:
@@ -16,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: master
+          ref: main
       - uses: actions/setup-node@v3
         with:
           cache: 'yarn'
