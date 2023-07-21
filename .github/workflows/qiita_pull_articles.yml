@@ -2,7 +2,7 @@ name: Qiita - pull articles
 
 on:
   schedule:
-    - cron: '0 21 * * *'
+    - cron: '*/20 * * * *'
   workflow_dispatch:
 
 permissions:
