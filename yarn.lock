@@ -1069,10 +1069,10 @@
   resolved "https://registry.yarnpkg.com/@nicolo-ribaudo/semver-v6/-/semver-v6-6.3.3.tgz#ea6d23ade78a325f7a52750aab1526b02b628c29"
   integrity sha512-3Yc1fUTs69MG/uZbJlLSI3JISMn2UV2rg+1D/vROUqZyh3l6iYHCs7GMp+M40ZD7yOdDbYjJcU1oTJhrc+dGKg==
 
-"@qiita/qiita-cli@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@qiita/qiita-cli/-/qiita-cli-0.7.0.tgz#0b3a403dd20c5e0dd3e16b38c1221c450ed2c0d3"
-  integrity sha512-1wXUVJ716L1nrtNToVPJrjYwWYc00X0X/LSGKPQBvXPzLBNTXdEHxcVDY2upqyj16qIPAN3NxcrU/FRkDiParQ==
+"@qiita/qiita-cli@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@qiita/qiita-cli/-/qiita-cli-1.0.0.tgz#b46b9cfc5d4dc58580127ba72d8cc8f263a00d0f"
+  integrity sha512-6ZshY0BOoPLGEakbCagKId2wpkOYcZAKK89w7MWeGCUrITF4TcNoW3F6Ut4PT9m8+GkJApgqWryf+bAEuNqVTg==
   dependencies:
     arg "^5.0.2"
     boxen "^7.1.1"
