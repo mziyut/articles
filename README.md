@@ -11,15 +11,4 @@
 [![Qiita - Test](https://github.com/mziyut/articles/actions/workflows/qiita_test.yml/badge.svg?branch=main)](https://github.com/mziyut/articles/actions/workflows/qiita_test.yml)
 [![Qiita - pull articles](https://github.com/mziyut/articles/actions/workflows/qiita_pull_articles.yml/badge.svg?branch=main)](https://github.com/mziyut/articles/actions/workflows/qiita_pull_articles.yml)
 
-<p dir="auto">
-　　<a href="https://qiita.com/mziyut" rel="nofollow">https://qiita.com/mziyut</a>
-</p>
-<blockquote>
-　　<img src="https://cdn.qiita.com/assets/qiita-ogp-3b6fcfdd74755a85107071ffc3155898.png" width="48" align="right" />
-　　<div>
-　　　　<strong>
-　　　　　　<a href="https://qiita.com/mziyut">@mziyutのマイページ - Qiita</a>
-　　　　</strong>
-　　</div>
-　　<div>Engineer Manager and Backend, Frontend, Infrastructure Engineer in Qiita</div>
-</blockquote>
+https://qiita.com/mziyut
