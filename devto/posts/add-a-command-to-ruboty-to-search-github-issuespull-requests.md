@@ -1,7 +1,7 @@
 ---
 title: Add a command to Ruboty to search GitHub issues/pull requests
 published: true
-date: '2022-10-21T11:31:04Z'
+date: '2022-10-21T11:31:04.000Z'
 tags: 'Ruby,Ruboty,GitHub'
 canonical_url: 'https://qiita.com/mziyut/items/d9546a166da9a48919b2'
 description: Introduction   Qiita Inc. is using Ruboty as a Slack bot as...
