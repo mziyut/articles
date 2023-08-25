@@ -1,12 +1,12 @@
-name: Qiita - publish articles
+name: Dev.to - publish articles
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'qiita/**'
-      - '.github/workflows/qiita_publish_articles.yml'
+      - 'devto/**'
+      - '.github/workflows/devto_publish_articles.yml'
   workflow_dispatch:
 
 permissions:
@@ -26,20 +26,19 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     environment:
-      name: qiita
-      url: https://qiita.com/mziyut
+      name: devto
+      url: https://dev.to/mziyut
     steps:
       - uses: actions/checkout@v3
-        with:
-          ref: main
       - uses: actions/setup-node@v3
         with:
           cache: 'yarn'
       - run: yarn install
-      - run: yarn workspace qiita publish:all
+      - run: yarn workspace devto run dev push
         env:
-          QIITA_TOKEN: ${{ secrets.QIITA_TOKEN }}
-      - run: yarn workspace qiita format:fix
+          DEVTO_TOKEN: ${{ secrets.DEVTO_TOKEN }}
+          DEVTO_REPO: mziyut/articles
+      - run: yarn workspace devto format:fix
       - uses: peter-evans/create-pull-request@v5
         with:
           commit-message: Publish articles
@@ -47,10 +46,10 @@ jobs:
           title: Publish articles
           committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           reviewers: mziyut
-          branch: create-pull-request/patch-publish-articles
+          branch: create-pull-request/patch-publish-articles-devto
           add-paths: |
-            qiita/public/*
+            devto/posts/*
           labels: |
             articles
             automerge
-            qiita
+            devto

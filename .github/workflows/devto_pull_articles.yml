@@ -1,11 +1,11 @@
-name: Qiita - pull articles
+name: Dev.to - pull articles
 
 on:
   schedule:
     - cron: '*/20 * * * *'
   push:
     paths:
-      - '.github/workflows/qiita_pull_articles.yml'
+      - '.github/workflows/devto_pull_articles.yml'
   workflow_dispatch:
 
 permissions:
@@ -24,10 +24,11 @@ jobs:
         with:
           cache: 'yarn'
       - run: yarn install
-      - run: yarn workspace qiita pull:force
+      - run: yarn workspace devto run dev init -p
         env:
-          QIITA_TOKEN: ${{ secrets.QIITA_TOKEN }}
-      - run: yarn workspace qiita format:fix
+          DEVTO_TOKEN: ${{ secrets.DEVTO_TOKEN }}
+          DEVTO_REPO: mziyut/articles
+      - run: yarn workspace devto format:fix
       - uses: peter-evans/create-pull-request@v5
         with:
           commit-message: Pull articles
@@ -35,9 +36,9 @@ jobs:
           title: Pull articles
           committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           reviewers: mziyut
-          branch: create-pull-request/patch-pull-articles
+          branch: create-pull-request/patch-pull-articles-devto
           add-paths: |
-            qiita/public/*
+            devto/posts/*
           labels: |
             articles
-            qiita
+            devto
