@@ -23,7 +23,7 @@
   "author": "Yuta Mizui <me@mziyut.com>",
   "license": "MIT",
   "dependencies": {
-    "@qiita/qiita-cli": "^1.0.0"
+    "@qiita/qiita-cli": "^1.1.0"
   },
   "devDependencies": {
     "@textlint-ja/textlint-rule-no-synonyms": "^1.3.0",
