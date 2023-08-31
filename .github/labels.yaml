@@ -30,6 +30,10 @@
   color: 0366d6
   description: 'Pull requests that update a dependency file'
   aliases: []
+- name: devto
+  color: '000000'
+  description: Dev.to
+  aliases: []
 - name: docker
   color: 0052CC
   description: Docker
@@ -157,6 +161,10 @@
 - name: wontfix
   color: ffffff
   description: 'This will not be worked on'
+  aliases: []
+- name: wordpress
+  color: 0052CC
+  description: WordPress
   aliases: []
 - name: yaml
   color: 9B3520
