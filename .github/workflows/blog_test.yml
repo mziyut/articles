@@ -1,0 +1,43 @@
+name: Blog - Test
+
+on:
+  push:
+    paths:
+      - 'blog/**'
+      - '.github/workflows/blog_test.yml'
+
+permissions:
+  contents: read
+  packages: read
+  issues: read
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  textlint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          cache: 'yarn'
+      - run: yarn install
+      - run: yarn workspace blog textlint
+
+  prettier:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          cache: 'yarn'
+      - run: yarn install
+      - run: yarn workspace blog prettier

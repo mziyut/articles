@@ -1,0 +1,36 @@
+{
+  "root": "./contents",
+  "title": "mziyut's Blog",
+  "author": "Yuta Mizui",
+  "plugins": [
+    "@honkit/honkit-plugin-ga",
+    "back-to-top-button",
+    "breadcrumbs",
+    "collapsible-chapters",
+    "copy-code-button",
+    "intopic-toc",
+    "prism",
+    "sitemap",
+    "summary-pro",
+    "-highlight"
+  ],
+  "pluginsConfig": {
+    "breadcrumbs": {
+      "home": "HOME"
+    },
+    "ga": {
+      "trackingID": "G-7SYKLZ9JCP"
+    },
+    "prism": {
+      "css": ["prismjs/themes/prism-tomorrow.css"]
+    },
+    "sitemap": {
+      "hostname": "https://mziyut.com/"
+    },
+    "summary-pro": {
+      "firstpage": {
+        "title": "Top"
+      }
+    }
+  }
+}
