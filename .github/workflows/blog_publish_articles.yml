@@ -1,15 +1,16 @@
-name: Blog - Test
+name: Blog - publish articles
 
 on:
   push:
+    branches:
+      - main
     paths:
       - 'blog/**'
-      - '.github/workflows/blog_test.yml'
+      - '.github/workflows/blog_publish_articles.yml'
+  workflow_dispatch:
 
 permissions:
   contents: read
-  packages: read
-  issues: read
   deployments: write
 
 defaults:
@@ -18,32 +19,10 @@ defaults:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
-  textlint:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          cache: 'yarn'
-      - run: yarn install
-      - run: yarn workspace blog textlint
-
-  prettier:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          cache: 'yarn'
-      - run: yarn install
-      - run: yarn workspace blog prettier
-
-  build:
+  publish_articles:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
