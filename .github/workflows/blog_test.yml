@@ -54,6 +54,7 @@ jobs:
       - run: yarn install
       - run: yarn workspace blog build
       - uses: cloudflare/pages-action@v1
+        if: github.ref != 'refs/heads/main'
         with:
           apiToken: ${{ secrets.BLOG_CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.BLOG_CLOUDFLARE_ACCOUNT_ID }}
