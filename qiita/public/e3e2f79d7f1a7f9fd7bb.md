@@ -6,7 +6,7 @@ tags:
   - TencentCloud
   - StaticWeb
 private: false
-updated_at: '2023-12-22T01:46:06+09:00'
+updated_at: '2023-12-22T01:50:49+09:00'
 id: e3e2f79d7f1a7f9fd7bb
 organization_url_name: qiita-inc
 slide: false
