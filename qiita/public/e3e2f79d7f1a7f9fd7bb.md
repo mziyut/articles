@@ -1,12 +1,12 @@
 ---
-title: TencentCloud  の Cloud Object Storage を利用して Static Website をホスティングする
+title: Tencent Cloud  の Cloud Object Storage を利用して Static Website をホスティングする
 tags:
   - CloudObjectStorage
   - ホスティング
   - TencentCloud
   - StaticWeb
 private: false
-updated_at: '2023-12-22T01:50:49+09:00'
+updated_at: '2023-12-22T01:51:56+09:00'
 id: e3e2f79d7f1a7f9fd7bb
 organization_url_name: qiita-inc
 slide: false
@@ -17,7 +17,7 @@ ignorePublish: false
 
 この記事は [むちゃぶりにも応える開発技術があるって？！〜3つのテーマで記事を募集〜 by V-CUBEのカレンダー | Advent Calendar 2023 - Qiita](https://qiita.com/advent-calendar/2023/v-cube) の 3 日目の記事です。
 
-今回は、 TencentCloud の Cloud Object Storage を利用して Static Website をホスティングしてみようと思います。
+今回は、 Tencent Cloud の Cloud Object Storage を利用して Static Website をホスティングしてみようと思います。
 
 最近は、 HTML や CSS, JS 等のファイルを出力し Static Website として公開する方も多いのではないでしょうか?
 
@@ -84,7 +84,7 @@ Bucket が無事作成されました。 :tada:
 <!doctype html>
 <html>
   <head>
-    <title>TencentCloud Cloud Object Storage - Test</title>
+    <title>Tencent Cloud Cloud Object Storage - Test</title>
   </head>
   <body>
     <p>Hello World.</p>
@@ -120,14 +120,14 @@ Static Website の設定画面に行き有効に変更いただくと、 専用�
 
 ## おわりに
 
-今回は、TencentCloud の Cloud Object Storage を利用して Static Website をホスティングするまでを試してみました。
-TencentCloud は触るのが初めてでしたが、ドキュメントも準備・整理されており、他クラウドインフラを触ったことがある人なら簡単に試すことができました。
+今回は、Tencent Cloud の Cloud Object Storage を利用して Static Website をホスティングするまでを試してみました。
+Tencent Cloud は触るのが初めてでしたが、ドキュメントも準備・整理されており、他クラウドインフラを触ったことがある人なら簡単に試すことができました。
 アカウントもせっかく作ったことですし、様々なサービスをもう少し触ってみようと思います。
 
 ### 付記
 
 検証が終わったので Cloud Object Storage の Bucket を削除しようとしたら、メール認証を求められました。
-Access Permission の設定はじめ TencentCloud 1つ1つが丁寧だなと改めて感じました。
+Access Permission の設定はじめ Tencent Cloud 1つ1つが丁寧だなと改めて感じました。
 
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/55950/e7309931-4a2f-e3db-bb33-69fc7cba22ee.png)
 
