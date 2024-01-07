@@ -23,7 +23,7 @@
     "gitbook-plugin-intopic-toc": "^1.1.1",
     "gitbook-plugin-sitemap": "^1.2.0",
     "gitbook-plugin-summary-pro": "^1.0.0",
-    "honkit": "^5.1.1",
+    "honkit": "^5.1.4",
     "honkit-plugin-breadcrumbs": "^0.0.2",
     "honkit-plugin-prism": "^2.5.1"
   },
