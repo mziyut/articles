@@ -30,7 +30,7 @@ jobs:
           cache: 'yarn'
       - run: yarn install
       - run: yarn workspace qiita textlint:codecov
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v4
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       - run: yarn workspace qiita textlint
