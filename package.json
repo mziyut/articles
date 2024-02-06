@@ -21,7 +21,6 @@
   "homepage": "https://github.com/mziyut/articles#readme",
   "private": true,
   "workspaces": [
-    "blog",
     "devto",
     "qiita"
   ],
