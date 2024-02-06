@@ -10,6 +10,10 @@
   color: E08634
   description: AWS
   aliases: []
+- name: blog
+  color: 36ABBD
+  description: null
+  aliases: []
 - name: bug
   color: d73a4a
   description: "Something isn't working"
@@ -141,6 +145,10 @@
 - name: size/XXL
   color: d93f0b
   description: 'ttps://github.com/apps/pull-request-size'
+  aliases: []
+- name: skip-push
+  color: ededed
+  description: null
   aliases: []
 - name: slack
   color: 76A2DD
