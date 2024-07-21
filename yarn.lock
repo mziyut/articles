@@ -1158,10 +1158,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@qiita/qiita-cli@^1.4.2":
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/@qiita/qiita-cli/-/qiita-cli-1.4.2.tgz#f8f5ac06419cc640f03b35ce968bce0c4d9a9de6"
-  integrity sha512-J8CYyT8WN+cpJBVDfKPJou6gKIru4GSULKBeFpbwmHqcLDfCwq+O6uRBBjHpTCYRq+yaLu8R5Rp/Gh7AtQUwNg==
+"@qiita/qiita-cli@^1.4.3":
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/@qiita/qiita-cli/-/qiita-cli-1.4.3.tgz#1b49724e45506a35661e38f45b2e8d7a72d76c7d"
+  integrity sha512-vH+adhJlmjUTgz1/RoenwVhuJ09yydGq7lslka1A+EgtFFO04odEWcmXRpMcOELKEoMJfUv3qqvoYFmhCUl/cw==
   dependencies:
     arg "^5.0.2"
     boxen "^7.1.1"
@@ -1172,7 +1172,7 @@
     express "^4.19.2"
     gray-matter "^4.0.3"
     open "^10.1.0"
-    ws "^8.17.0"
+    ws "^8.17.1"
 
 "@sindresorhus/is@^5.2.0":
   version "5.6.0"
@@ -5945,10 +5945,10 @@ write@1.0.3:
   dependencies:
     mkdirp "^0.5.1"
 
-ws@^8.17.0:
-  version "8.17.1"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-8.17.1.tgz#9293da530bb548febc95371d90f9c878727d919b"
-  integrity sha512-6XQFvXTkbfUOZOKKILFG1PDK2NDQs4azKQl26T0YS5CxqWLgXajbPZ+h4gZekJyRqFU8pvnbAbbs/3TgRPy+GQ==
+ws@^8.17.1:
+  version "8.18.0"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-8.18.0.tgz#0d7505a6eafe2b0e712d232b42279f53bc289bbc"
+  integrity sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==
 
 y18n@^5.0.5:
   version "5.0.8"
