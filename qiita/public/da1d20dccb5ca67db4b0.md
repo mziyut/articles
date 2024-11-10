@@ -7,7 +7,7 @@ tags:
   - Playwright
   - Vitest
 private: true
-updated_at: '2024-11-10T00:03:34+09:00'
+updated_at: '2024-11-10T22:01:33+09:00'
 id: da1d20dccb5ca67db4b0
 organization_url_name: null
 slide: false
