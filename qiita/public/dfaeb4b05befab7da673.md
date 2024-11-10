@@ -7,7 +7,7 @@ tags:
   - Remix
   - Vitest
 private: true
-updated_at: '2024-11-08T00:11:02+09:00'
+updated_at: '2024-11-10T22:01:33+09:00'
 id: dfaeb4b05befab7da673
 organization_url_name: null
 slide: false
