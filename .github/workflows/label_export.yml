@@ -39,7 +39,7 @@ jobs:
           name: Label config
       - run: cp labels.yaml .github/labels.yaml
       - run: npx prettier .github/labels.yaml --write
-      - uses: peter-evans/create-pull-request@v6
+      - uses: peter-evans/create-pull-request@v7
         with:
           commit-message: Update labels
           delete-branch: true
