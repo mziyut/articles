@@ -6,10 +6,10 @@ tags:
   - JavaScript
   - Node.js
   - ESLint
-private: true
-updated_at: '2024-11-03T07:24:02+09:00'
+private: false
+updated_at: '2024-12-03T07:03:53+09:00'
 id: f85cdfac702e4dea5aee
-organization_url_name: null
+organization_url_name: foundingbase
 slide: false
 ignorePublish: false
 ---
