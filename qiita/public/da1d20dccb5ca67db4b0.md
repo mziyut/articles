@@ -6,10 +6,10 @@ tags:
   - TypeScript
   - Playwright
   - Vitest
-private: true
-updated_at: '2024-11-10T22:01:33+09:00'
+private: false
+updated_at: '2024-12-06T07:04:04+09:00'
 id: da1d20dccb5ca67db4b0
-organization_url_name: null
+organization_url_name: foundingbase
 slide: false
 ignorePublish: false
 ---
