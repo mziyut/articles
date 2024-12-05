@@ -6,10 +6,10 @@ tags:
   - TypeScript
   - Remix
   - Vitest
-private: true
-updated_at: '2024-11-10T22:01:33+09:00'
+private: false
+updated_at: '2024-12-05T07:03:49+09:00'
 id: dfaeb4b05befab7da673
-organization_url_name: null
+organization_url_name: foundingbase
 slide: false
 ignorePublish: false
 ---
