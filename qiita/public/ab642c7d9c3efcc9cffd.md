@@ -5,10 +5,10 @@ tags:
   - GitHubActions
   - vite
   - Vitest
-private: true
-updated_at: '2024-11-17T23:41:45+09:00'
+private: false
+updated_at: '2024-12-07T07:03:19+09:00'
 id: ab642c7d9c3efcc9cffd
-organization_url_name: null
+organization_url_name: foundingbase
 slide: false
 ignorePublish: false
 ---
