@@ -4,10 +4,10 @@ tags:
   - React
   - MDX
   - Docusaurus
-private: true
-updated_at: '2024-12-09T00:15:05+09:00'
+private: false
+updated_at: '2024-12-19T07:03:38+09:00'
 id: bde37ec077aeb71c64ed
-organization_url_name: null
+organization_url_name: foundingbase
 slide: false
 ignorePublish: false
 ---
