@@ -5,10 +5,10 @@ tags:
   - JSON
   - jsonschema
   - wp-env
-private: true
-updated_at: '2024-12-18T00:14:08+09:00'
+private: false
+updated_at: '2024-12-23T07:03:54+09:00'
 id: c9a0ba113eb8a6f44ecc
-organization_url_name: null
+organization_url_name: foundingbase
 slide: false
 ignorePublish: false
 ---
