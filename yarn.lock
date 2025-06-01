@@ -5705,10 +5705,10 @@ textlint-formatter-codecov@^1.0.2:
     lodash.groupby "^3.1.1"
     lodash.range "^3.0.1"
 
-textlint-rule-aws-service-name@^1.11.0:
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/textlint-rule-aws-service-name/-/textlint-rule-aws-service-name-1.11.0.tgz#4d37feb8cce47498f512e31ee8533c784d832c95"
-  integrity sha512-QJEgJIGaHvw9/L07APsjYA1lV//yzRy8uJBozOZSuiVaVZrJRijWzMA//nGva2vRDvlw8hFhnwg8LxPiBE0mVg==
+textlint-rule-aws-service-name@^1.13.1:
+  version "1.13.1"
+  resolved "https://registry.yarnpkg.com/textlint-rule-aws-service-name/-/textlint-rule-aws-service-name-1.13.1.tgz#e8004af42a2f302f9d96c40156474cf36f9b0604"
+  integrity sha512-SYjVp7Ehw1Y84otTMhKz3zFwvP5p/d5DFp6aGRTb/xzqR9dZKI43Fvkt0ErkRzFdiuP+8PsMO+kHJj3RhK+dTQ==
   dependencies:
     textlint-rule-prh "^5.3.0"
     textlint-scripts "^13.3.0"
