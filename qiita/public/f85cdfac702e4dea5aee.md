@@ -7,7 +7,7 @@ tags:
   - Node.js
   - ESLint
 private: false
-updated_at: '2024-12-03T07:03:53+09:00'
+updated_at: '2025-06-30T21:22:08+09:00'
 id: f85cdfac702e4dea5aee
 organization_url_name: foundingbase
 slide: false
@@ -21,7 +21,7 @@ ESLint v9 から Flat Config がデフォルトとして扱われるようにな
 
 ESLint v9 で従来の legacy ESLint configuration file format を使いたい場合は、 `ESLINT_USE_FLAT_CONFIG` を `false` に設定すれば利用可能ですが、 `@eslint/migrate-config` を利用すれば、簡単に移行することができます。
 
-##　注意
+## 注意
 
 `@eslint/migrate-config` は 2024/11 時点以下のファイルフォーマットのみ対応しています。
 
