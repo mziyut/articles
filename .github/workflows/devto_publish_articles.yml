@@ -30,7 +30,7 @@ jobs:
       url: https://dev.to/mziyut
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         with:
           cache: 'yarn'
       - run: yarn install
