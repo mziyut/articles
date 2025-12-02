@@ -37,7 +37,8 @@
     "textlint-rule-aws-service-name": "^1.13.2",
     "textlint-rule-no-mixed-zenkaku-and-hankaku-alphabet": "^1.0.1",
     "textlint-rule-no-todo": "^2.0.1",
-    "textlint-rule-period-in-list-item": "^1.0.1"
+    "textlint-rule-period-in-list-item": "^1.0.1",
+    "textlint-rule-preset-ja-technical-writing": "^8.0.0"
   },
   "prettier": {
     "singleQuote": true
