@@ -28,7 +28,7 @@ jobs:
     needs:
       - export_labels
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           ref: main
       - uses: actions/setup-node@v5
