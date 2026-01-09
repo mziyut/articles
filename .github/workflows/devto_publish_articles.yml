@@ -39,7 +39,7 @@ jobs:
           DEVTO_TOKEN: ${{ secrets.DEVTO_TOKEN }}
           DEVTO_REPO: mziyut/articles
       - run: yarn workspace devto format:fix
-      - uses: peter-evans/create-pull-request@v7
+      - uses: peter-evans/create-pull-request@v8
         with:
           commit-message: Publish articles
           delete-branch: true

@@ -28,7 +28,7 @@ jobs:
         env:
           QIITA_TOKEN: ${{ secrets.QIITA_TOKEN }}
       - run: yarn workspace qiita format:fix
-      - uses: peter-evans/create-pull-request@v7
+      - uses: peter-evans/create-pull-request@v8
         with:
           commit-message: Pull articles
           delete-branch: true
