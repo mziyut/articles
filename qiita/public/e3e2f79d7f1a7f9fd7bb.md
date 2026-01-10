@@ -33,7 +33,7 @@ https://www.tencentcloud.com/jp/products/cos
 AWS で言う Amazon S3 、 Google Cloud で言う Cloud Storage に該当するサービスです。
 ドキュメントを読むと Cloud Object Storage は COS と略されていることが多いようです。
 
-料金は ↓ ページから確認することができます。費用は「ストレージ費用」「リクエスト費用」「データ取得費用」「トラフィック費用」「管理機能費用」で構成されているそうです。
+料金は ↓ ページから確認できます。費用は「ストレージ費用」「リクエスト費用」「データ取得費用」「トラフィック費用」「管理機能費用」で構成されているそうです。
 コストも他クラウドサービスと大きな差はありませんでした。
 
 https://intl.cloud.tencent.com/pricing/cos?lang=jp
@@ -102,7 +102,7 @@ Overview 内の下部に Endpoint が記載されています。 記載されて
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/55950/2dd7c685-bdd2-3833-b74c-89ab332e70f4.png)
 
 私の場合は、 `https://adcal-2023-mziyut-1323308177.cos.ap-tokyo.myqcloud.com/index.html` となります。
-これで、作成した Bucket に Upload したファイルへアクセスすることができるようになりました。
+これで、作成した Bucket に Upload したファイルへアクセスできるようになりました。
 
 ## Static Website を有効にする
 
