@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "npm-run-all": "^4.1.5",
-    "prettier": "^3.7.3",
+    "prettier": "^3.7.4",
     "textlint": "^15.4.0",
     "textlint-filter-rule-comments": "^1.2.2",
     "textlint-formatter-codecov": "^1.0.2",
